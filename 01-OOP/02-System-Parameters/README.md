@@ -34,3 +34,16 @@ pipenv run python args.py arg1 arg2 arg3
 
 ## Exercise
 
+Let's write a simple calculator for **integers**. Here's how it should work:
+
+```bash
+alias prp="pipenv run python"
+prp calc.py 4 + 5
+# => 9
+prp calc 2 \* 6
+# => 12
+prp calc 3 - 9
+# => -6
+```
+
+Open the `calc.py` file and implement this behavior! You will find that a `main` function that is automatically executed thanks to [this idiom](https://docs.python.org/3/library/__main__.html).
