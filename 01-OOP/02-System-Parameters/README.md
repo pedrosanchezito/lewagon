@@ -8,6 +8,7 @@ Python scripts can read arguments passed on the command line.
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/02-Parameter-Passing
 stt # Open the folder in Sublime Text
+pipenv run nosetests
 ```
 
 ## Some words about `sys.argv`

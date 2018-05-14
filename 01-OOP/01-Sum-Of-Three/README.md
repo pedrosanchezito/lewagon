@@ -10,13 +10,19 @@ cd 01-OOP/01-Sum-Of-Three
 stt # Open the folder in Sublime Text
 ```
 
+For this first exercise, we also need to create the virtualenv and install all dependencies defined in the [`Pipfile`](../../Pipfile):
+
+```bash
+pipenv install --dev # to install `packages` **and** `dev-packages`
+```
+
 ## Procedure
 
 Your goal is to implement the method `sum3` in the `sum_of_three.py` file. Before you actually try to do it, run the **tests** that we prepared:
 
 ```bash
 pipenv run nosetests
-# or `pr nosetests` if you set the alias
+# or `pr nosetests` if you set the `alias pr="pipenv run"` already
 ```
 
 You should get three failing tests. Read the error (especially the `AssertionError`) to understand what is wrong and try implementing the `sum3` method. When you are done, run the command above once again.
