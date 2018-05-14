@@ -9,6 +9,7 @@ cd ~/code/<your_username>/reboot-python
 cd 01-OOP/02-System-Parameters
 stt # Open the folder in Sublime Text
 pipenv run nosetests
+pipenv run pylint calc.py
 ```
 
 ## Some words about `sys.argv`

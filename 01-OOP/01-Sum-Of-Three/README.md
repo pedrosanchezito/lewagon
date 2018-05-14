@@ -32,7 +32,7 @@ Repeat until all tests turn **green**.
 Then check your style with:
 
 ```bash
-pipenv run pylint sum_of_three.py --disable=missing-docstring
+pipenv run pylint sum_of_three.py
 ```
 
 If you get style errors, fix them, save and re-run the command above.
