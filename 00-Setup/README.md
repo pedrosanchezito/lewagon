@@ -37,7 +37,7 @@ Or you can do directly:
 pipenv run python file.py
 ```
 
-Maybe it's time to add this to your aliases in your `~/.zshrc`:
+Time to add these aliases in your `~/.zshrc`:
 
 ```bash
 alias pr="pipenv run"
