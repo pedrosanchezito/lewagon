@@ -1,6 +1,6 @@
 # System Parameters
 
-Python scripts can read arguments passed on the command line.
+Python scripts can read arguments passed on the command line. This may come in handy when you want to add options to your script.
 
 ## Getting started
 
@@ -49,3 +49,8 @@ prp calc 3 - 9
 ```
 
 Open the `calc.py` file and implement this behavior! You will find that a `main` function that is automatically executed thanks to [this idiom](https://docs.python.org/3/library/__main__.html).
+
+
+## Going Further
+
+If you have to build a serious CLI tool with Python, please consider the built-in [`argparse`](https://docs.python.org/3/library/argparse.html).
