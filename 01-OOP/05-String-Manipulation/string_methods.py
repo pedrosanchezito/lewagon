@@ -4,14 +4,15 @@
 # - One line of code for each method
 # - Just look in the doc for the right method of the String class!
 
-def add_comma(a_string):
-    pass # TODO: return a copy of the string with every word separated by a comma
-    # example: add_comma("John Peter Jude Rebecca") => ",J,o,h,n, ,P,e,t,e,r, ,J,u,d,e"
-
 
 def belongs_to(a_string, a_word):
     pass # TODO: return true if a_string contains a_word
     # example: belongs_to("hey jude", "jude") => true
+
+
+def convert_to_array(a_string):
+    pass # TODO: return a array containing every word of the string
+    # example: convert_to_array("John Peter Jude") => ["John", "Peter", "Jude"]
 
 
 def count_repetition(a_string, a_substring):

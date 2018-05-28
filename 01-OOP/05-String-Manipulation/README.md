@@ -47,12 +47,3 @@ Code is all about being smart and knowing how and where to look for the info you
 * [The python doc](https://docs.python.org/3) if you have a rough idea of the method you are looking for.
 
 When you think you've found the method you're looking for, and you think you know how to use it, use the Python interpreter to test this method on something! Experimenting on the Python interpreter is a crucial step for beginners.
-
-## Key learning points
-
-Are you able to answer the following questions? If not, you're not ready to move on!
-
-- How many built-in Python classes do you know? Which ones?
-- What's the syntax to call a method on an object of these classes?
-- What should be the immediate 1st step when you're looking to perform a standard operation (upcasing a word, joining string, etc.)?
-- What's the second step, to make sure you really understand the method you found?

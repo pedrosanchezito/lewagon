@@ -2,26 +2,14 @@
 
 from nose.tools import eq_
 
-from string_methods import add_comma
 from string_methods import belongs_to
+from string_methods import convert_to_array
 from string_methods import count_repetition
-from string_methods import remove_surrounding_whitespaces
 from string_methods import is_a_question
 from string_methods import replace
+from string_methods import remove_surrounding_whitespaces
 from string_methods import full_description_concatenation
 from string_methods import full_description_formatting
-
-
-
-# add_comma
-
-def test_strings_boris_romain_seb():
-    """This method should return 'boris, romain, seb'"""
-    eq_(add_comma("boris romain seb"), "b,o,r,i,s, ,r,o,m,a,i,n, ,s,e,b")
-
-def test_strings_boris_seb_romain():
-    """This method should return 'boris, seb, romain'"""
-    eq_(add_comma("boris seb romain"), "b,o,r,i,s, ,s,e,b, ,r,o,m,a,i,n")
 
 
 # belongs_to
@@ -33,6 +21,17 @@ def test_include_word():
 def test_do_not_include_word():
     """This method should return False as 'hey jude' doesn't contain 'joe'"""
     eq_(belongs_to("hey jude", "joe"), False)
+
+
+# convert_to_array
+
+def test_strings_boris_romain_seb():
+    """This method should return ["boris", "romain" , "seb"]"""
+    eq_(convert_to_array("boris romain seb"), ["boris", "romain" , "seb"])
+
+def test_strings_boris_seb_romain():
+    """This method should return ["boris", "seb", "romain"]"""
+    eq_(convert_to_array("boris seb romain"), ["boris", "seb", "romain"])
 
 
 # count_repetition
