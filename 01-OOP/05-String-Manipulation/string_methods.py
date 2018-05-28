@@ -12,7 +12,7 @@ def add_comma(a_string):
 
 def belongs_to(a_string, a_word):
     pass # TODO: return true if a_string contains a_word
-    # example: belongs_to("hey jude", "jude") => true
+    # example: belongs_to("hey jude", "jude") => True
 
 
 def count_repetition(a_string, a_substring):
@@ -21,7 +21,7 @@ def count_repetition(a_string, a_substring):
 
 def is_a_question(a_string):
     pass # TODO: return true if a_string ends with a "?"
-    # example: is_a_question("How are you?") => true
+    # example: is_a_question("How are you?") => True
 
 
 def remove_surrounding_whitespaces(a_string):
