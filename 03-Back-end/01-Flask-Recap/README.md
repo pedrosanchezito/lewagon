@@ -13,7 +13,6 @@ You will work in a dedicated repository to apply the best practices covered in t
 ```bash
 cd ~/code/<your_username>
 mkdir flask-101 & cd $_
-git init
 pipenv install flask gunicorn
 touch app.py
 stt # Open Sublime Text
@@ -32,6 +31,13 @@ app = Flask(__name__)
 def hello():
     return "Hello World!"
 ```
+
+What does this code do?
+
+1. First we imported the Flask class. An instance of this class will be our Web application.
+1. Next we create an instance of this class. The first argument is the name of the application’s module or package.
+1. We then use the `route()` decorator to tell Flask what URL should trigger our function.
+1. The function is given a name which is also used to generate URLs for that particular function, and returns the message we want to display in the user’s browser.
 
 ### Development run
 
@@ -64,10 +70,14 @@ Let's try to deploy this application to Heroku:
 
 ```bash
 echo "web: gunicorn app:app --access-logfile=-" > Procfile
+
+git init
 git add .
 git commit -m "First deployment of Flask boilerplate"
+
 heroku create --region=eu
 git push heroku master
+
 heroku open                # Do you get an "Hello world?"
 heroku logs -n 1000 --tail # Check the access logs are coming up
 ```
