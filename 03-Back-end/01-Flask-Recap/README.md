@@ -14,18 +14,18 @@ You will work in a dedicated repository to apply the best practices covered in t
 cd ~/code/<your_username>
 mkdir flask-101 & cd $_
 pipenv install flask gunicorn
-touch app.py
+touch wsgi.py
 stt # Open Sublime Text
 ```
 
 ### Flask Boilerplate
 
-In your `app.py` file, copy paste the following boilerplate:
+In your `wsgi.py` file, copy paste the following boilerplate:
 
 ```python
+# wsgi.py
 from flask import Flask
 app = Flask(__name__)
-
 
 @app.route('/')
 def hello():
@@ -44,7 +44,7 @@ What does this code do?
 Go back to your terminal and run:
 
 ```bash
-FLASK_DEBUG=1 pipenv run flask run
+FLASK_ENV=development pipenv run flask run
 ```
 
 The server should start. Open your browser and visit [`localhost:5000`](http://localhost:5000). You should see "Hello world!" as a text answer!
@@ -78,6 +78,75 @@ git commit -m "First deployment of Flask boilerplate"
 heroku create --region=eu
 git push heroku master
 
-heroku open                # Do you get an "Hello world?"
-heroku logs -n 1000 --tail # Check the access logs are coming up
+heroku ps                  # Do you have a free dyno up running `gunicorn`?
+
+heroku open                # Do you get an "Hello world" in the browser?
+heroku logs -n 1000 --tail # Check the access logs are coming up. Reload the browser.
 ```
+
+## JSON
+
+Right now, our app returns some plain text. Today's goal is to build a REST API.
+
+👉 Add a `/api/v1/products` route which will return a JSON array out of the plain list of dict:
+
+```python
+the_products = [
+    { 'id': 1, 'name': 'Skello' },
+    { 'id': 2, 'name': 'Socialive.tv' }
+]
+```
+
+💡**Tip**: Have a look at [`jsonify`](http://flask.pocoo.org/docs/api/#flask.json.jsonify)
+
+To test your code, open the browser and go to [`localhost:5000/api/v1/products`](http://localhost:5000/api/v1/products).
+
+💡**Tip**: Install the [JSONView Chrome extension](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) to have a better visualisation of JSON HTTP responses.
+
+Commit and push your code to Heroku. Check te new `/api/v1/products` endpoint works in production.
+
+## Testing
+
+Testing our APIs will be mandatory. Whether we use strict TDD or not during the development process, at some point the application should have tests exercising every endpoint.
+
+We are using an external module called [`Flask Testing`](https://pythonhosted.org/Flask-Testing/).
+
+![](https://pythonhosted.org/Flask-Testing/_static/flask-testing.png)
+
+```bash
+pipenv install flask-testing nose rednose --dev
+```
+
+Now let's create the `tests` directory and a first test file. This test file is about **views**, which is the component the closest to the HTTP response in a MVC framework (more on that later):
+
+```bash
+mkdir tests
+touch tests/test_views.py
+```
+
+Open the file in Sublime Text, read and copy-paste this.
+
+```python
+# tests/test_views.py
+from flask_testing import TestCase
+from wsgi import app
+
+class TestViews(TestCase):
+    def create_app(self):
+        app.config['TESTING'] = True
+        return app
+
+    def test_products_json(self):
+        response = self.client.get("/api/v1/products")
+        products = response.json
+        self.assertIsInstance(products, list)
+        self.assertGreater(len(products), 3)
+```
+
+Then open the terminal and run:
+
+```bash
+pipenv run nosetests
+```
+
+👉 Your test should be failing. How do you fix the code in `wsgi.py` to make the test green?
