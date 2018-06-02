@@ -15,7 +15,7 @@ cd ~/code/<your_username>
 mkdir flask-101 & cd $_
 pipenv install flask gunicorn
 touch wsgi.py
-stt # Open Sublime Text
+stt # Open Sublime Text in the current folder.
 ```
 
 ### Flask Boilerplate
@@ -53,11 +53,13 @@ Try to edit the code and reload the page in the browser. 💡 What is happenning
 
 ### Production run
 
+In production, we don't want to use the default server, but something like [Gunicorn](http://gunicorn.org/), already installed in the `Pipfile` thanks to a previous command.
+
 We can test the production configuration with:
 
 ```bash
 # Ctrl-C to kill the previous server
-pipenv run gunicorn app:app --access-logfile=-
+pipenv run gunicorn wsgi:app --access-logfile=-
 ```
 
 Open your browser and visit [`localhost:8000`](http://localhost:8000). Again you should see "Hello world!".
@@ -69,7 +71,7 @@ Try to edit the code and reload the page in the browser. 💡 What is happenning
 Let's try to deploy this application to Heroku:
 
 ```bash
-echo "web: gunicorn app:app --access-logfile=-" > Procfile
+echo "web: gunicorn wsgi:app --access-logfile=-" > Procfile
 
 git init
 git add .
@@ -140,7 +142,7 @@ class TestViews(TestCase):
         response = self.client.get("/api/v1/products")
         products = response.json
         self.assertIsInstance(products, list)
-        self.assertGreater(len(products), 3)
+        self.assertGreater(len(products), 3) # 3 is not a mistake here.
 ```
 
 Then open the terminal and run:
