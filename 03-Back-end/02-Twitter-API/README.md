@@ -2,7 +2,7 @@
 
 Now that we have played a bit with Flask, it's time to start the exercises which will keep us busy for the next three days. The goal is to build a clone of the [Twitter API](https://developer.twitter.com/en/docs/api-reference-index) using Flask and different Flask plugins (like [these](https://github.com/humiaozuzu/awesome-flask)).
 
-⚠️ In this exercise, we will implement some API endpoints with the a big restriction: we don't have a relational database yet! This constraint will help you focus on the HTTP layer of the API, not on the information retrieval. To abstract the database, we will use a [data access object (DAO)](https://en.wikipedia.org/wiki/Data_access_object) and tomorrow we will replace it with actual queries to the database.
+⚠️ In this exercise, we will implement some API endpoints with the a big restriction: we don't have a relational database yet! This constraint will help you focus on the HTTP layer of the API, not on the information retrieval. To abstract the database, we will use the [data access object (DAO)](https://en.wikipedia.org/wiki/Data_access_object) pattern and tomorrow we will replace it with actual queries to the database.
 
 ## Getting started
 
@@ -152,6 +152,7 @@ pipenv run nosetests --nocapture
 The test should be red!
 
 👉 How can you fix the test to make the command turn green?
+👉 Do we need the `print()` statement in the test method? Why (not)?
 
 ### Deployment
 
@@ -178,3 +179,161 @@ git push heroku master
 
 heroku open # Check the app is actually running.
 ```
+
+## First API endpoint - `/api/v1/tweets/:id`
+
+In the following section, we will implement the HTTP API serving a JSON of a single tweet.
+
+### Model
+
+Before rushing to the Flask blueprint we need to create to serve an HTTP response,
+we need a model to hold some data. We don't have a database (yet) so we will
+create everything manually today.
+
+Let's think about our `Tweet` and use TDD to implement this class. Have a look at
+what [a Tweet is](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id#example-response) and you'll see that is quite complex.
+Let's simplify by saying a tweet will hold some `text` and `created_at` date.
+
+### TDD
+
+Let's use TDD to implement this `Tweet` class with its two instance variables. We will write
+the test first and then walk our way until the test turns green.
+
+```bash
+touch tests/test_models.py
+```
+
+```python
+# tests/test_models.py
+from unittest import TestCase
+from app.models import Tweet  # We will code our `Tweet` class in `app/models.py`
+
+class TestTweet(TestCase):
+    def test_instance_variables(self):
+        # Create an instance of the `Tweet` class with one argument
+        tweet = Tweet("my first tweet")
+        # Check that `text` holds the content of the tweet
+        self.assertEqual(tweet.text, "my first tweet")
+        # Check that when creating a new `Tweet` instance, its `created_at` date gets set
+        self.assertIsNotNone(tweet.created_at)
+```
+
+👉 Take some time to read the [26.4. `unittest`](https://docs.python.org/3/library/unittest.html) chapter.
+
+OK, the test is written, let's run the test! (it should not be green):
+
+```bash
+pipenv run nosetests tests/test_models.py
+```
+
+💡 _In the command above ☝️, we give the exact filename to run only this test file_
+
+You should get something which looks like this:
+
+```bash
+======================================================================
+1) ERROR: Failure: ModuleNotFoundError (No module named 'app.models')
+----------------------------------------------------------------------
+    # [...]
+    tests/test_models.py line 2 in <module>
+      from app.models import Tweet
+   ModuleNotFoundError: No module named 'app.models'
+```
+
+👉 What's next? **Read the error message and try to fix it**
+
+<details><summary>Reveal answer</summary><p>
+
+You must create the `models.py` file so that this module is defined!
+
+```bash
+touch app/models.py
+```
+</p></details>
+
+Run the tests again **until the error message changes**. You should get this one:
+
+```bash
+======================================================================
+1) ERROR: Failure: ImportError (cannot import name 'Tweet')
+----------------------------------------------------------------------
+    # [...]
+    tests/test_models.py line 2 in <module>
+      from app.models import Tweet
+   ImportError: cannot import name 'Tweet'
+```
+
+👉 What is the **minimum** code change you can do to fix this error?
+
+<details><summary>Reveal answer</summary><p>
+
+The error complains about the fact that `Tweet` is not defined. The minimum code
+change we can do is to create an **empty** class:
+
+```python
+# app/models.py
+class Tweet:
+    pass
+```
+</p></details>
+
+The next error should be:
+
+```bash
+======================================================================
+1) ERROR: test_instance_variables (test_models.TestTweet)
+----------------------------------------------------------------------
+   Traceback (most recent call last):
+    tests/test_models.py line 6 in test_instance_variables
+      tweet = Tweet("my first tweet")
+   TypeError: object() takes no parameters
+```
+
+👉 What is the **minimum** code change you can do to fix this error?
+
+<details><summary>Reveal answer</summary><p>
+
+Our `Tweet` class is empty and needs an [instance variable](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables) `text`:
+
+```python
+# app/models.py
+class Tweet:
+    def __init__(self, text):
+        self.text = text
+```
+
+</p></details>
+
+
+The next error should be:
+
+```bash
+======================================================================
+1) ERROR: test_instance_variables (test_models.TestTweet)
+----------------------------------------------------------------------
+   Traceback (most recent call last):
+    tests/test_models.py line 8 in test_instance_variables
+      self.assertIsNotNone(tweet.created_at)
+   AttributeError: 'Tweet' object has no attribute 'created_at'
+```
+
+👉 How can we fix this last error and make the test pass?
+
+<details><summary>Reveal answer</summary><p>
+
+Our `Tweet` class is missing the `created_at` instance variable, automatically
+set to [the current time](https://stackoverflow.com/questions/415511/how-to-get-current-time-in-python).
+
+```python
+# app/models.py
+from datetime import datetime
+
+class Tweet:
+    def __init__(self, text):
+        self.text = text
+        self.created_at = datetime.now()
+```
+
+</p></details>
+
+✨ Congrats! you juse implemented the `Tweet` class using TDD.
