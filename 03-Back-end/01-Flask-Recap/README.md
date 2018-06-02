@@ -148,7 +148,9 @@ class TestViews(TestCase):
 Then open the terminal and run:
 
 ```bash
-pipenv run nosetests
+pipenv run nosetests --nocapture
 ```
 
 👉 Your test should be failing. How do you fix the code in `wsgi.py` to make the test green?
+
+(`--no-capture` flag is useful to actually view your `print()` debugging statements).
