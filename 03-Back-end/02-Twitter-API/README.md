@@ -344,8 +344,10 @@ interacting with a relational database. Until then, we need to **fake** it.
 
 
 **Specification**: The repository class will hold a list of tweets, empty at first,
-but will accept new tweets. When receiving a new tweet, it will automatically assign
-to it an auto-incremented id (starting at `1`). The list of tweets will be hold in memory.
+but will `add` new tweets. When adding a new tweet, it will automatically assign
+to it an auto-incremented id (starting at `1`). Last but not least, it should allow
+to `get` a tweet based on its id.
+The list of tweets will be hold in memory.
 
 
 Let's use TDD to implement this class!
@@ -383,6 +385,13 @@ class TestTweetRepository(TestCase):
         second_tweet = Tweet("a second tweet")
         repository.add(second_tweet)
         self.assertEqual(second_tweet.id, 2)
+
+    def test_get_tweet(self):
+        repository = TweetRepository()
+        tweet = Tweet("a new tweet")
+        repository.add(tweet)
+        self.assertEqual(tweet, repository.get(1))
+        self.assertIsNone(repository.get(2))
 ```
 
 </p></details>
@@ -394,7 +403,6 @@ same TDD technique we used to implement the `Tweet` class.
 
 ```python
 # app/repositories.py
-
 class TweetRepository:
     def __init__(self):
         self.tweets = []
@@ -404,8 +412,182 @@ class TweetRepository:
         self.tweets.append(tweet)
         tweet.id = self.next_id
         self.next_id += 1
+
+    def get(self, id):
+      for tweet in self.tweets:
+          if tweet.id == id:
+              return tweet
+      return None
 ```
 
 💡 See how the test file is way longer than the actual implementation?
 
 </p></details>
+
+### Controller + Route
+
+It's now time to add a new route and a new controller to our app to serve our API endpoint.
+Remember, we want to have this:
+
+```bash
+GET /api/v1/tweets/1
+
+=> a JSON of the given tweet
+```
+
+To stay organized, we will introduce a new `Blueprint` to our application. We already have `main`,
+we will now have `api` as well:
+
+```bash
+mkdir app/api
+mkdir tests/api
+touch tests/api/__init__.py
+touch tests/api/test_tweet_views.py
+```
+
+Let's write the test for our new route:
+
+```python
+# tests/api/test_tweet_views.py
+
+from flask_testing import TestCase
+from app import create_app
+from app.models import Tweet
+from app.db import tweet_repository
+
+class TestTweetViews(TestCase):
+    def create_app(self):
+        app = create_app()
+        app.config['TESTING'] = True
+        return app
+
+    def setUp(self):
+        tweet_repository.tweets.clear() # Make sure each test starts with an empty database
+
+    def test_tweet_show(self):
+        first_tweet = Tweet("First tweet")
+        tweet_repository.add(first_tweet)
+        response = self.client.get("/api/v1/tweets/1")
+        response_tweet = response.json
+        print(response_tweet)
+        self.assertEqual(response_tweet["id"], 1)
+        self.assertEqual(response_tweet["text"], "First tweet")
+        self.assertIsNotNone(response_tweet["created_at"])
+```
+
+💡 If you run the test, it will complain that `tweet_repository` does not exist.
+This is our fake database. This is just an instance of `TweetRepository`. Create it:
+
+```bash
+touch app/db.py
+```
+
+```python
+# app/db.py
+
+from .repositories import TweetRepository
+
+tweet_repository = TweetRepository()
+```
+
+Now, let's make the test pass! We need to create the new `Blueprint`:
+
+```bash
+touch app/api/tweets.py
+```
+
+```python
+# app/api/tweets.py
+from flask import Blueprint, jsonify
+# TODO: import tweet_repository
+
+api = Blueprint('tweets', __name__)
+
+# TODO: implement the `/tweets/1` parametric route
+```
+
+Connect this right away to the main Flask app:
+
+```python
+# app/__init__.py
+# [...]
+def create_app():
+    # [...]
+    from .api.tweets import api as tweet_api
+    app.register_blueprint(tweet_api, url_prefix = "/api/v1")
+    # [...]
+```
+
+👉 Implement the `Blueprint` to make the test pass. Use a [variable rule](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) for the dynamic id.
+
+```bash
+pipenv run nosetests tests/api/test_tweet_views.py --nocapture
+```
+
+<details><summary>Reveal answer (Really try first 🙏)</summary><p>
+
+A naive implementation would be to use [`jsonify`](http://flask.pocoo.org/docs/1.0/api/#flask.json.jsonify)
+on a `dict` built from the `Tweet` instance variables.
+
+```python
+# app/api/tweets.py
+from flask import Blueprint, jsonify
+from app.db import tweet_repository
+
+api = Blueprint('tweets', __name__)
+
+@api.route('/tweets/<int:id>')
+def show(id):
+    tweet = tweet_repository.get(id)
+    return jsonify({
+        "id": tweet.id,
+        "text": tweet.text,
+        "created_at": tweet.created_at
+    })
+```
+
+What we just did is called **serialization**. We took a rich object in memory (a `Tweet` instance
+retrieved from the `tweet_repository`) and we converted it into a JSON string to be passed in the
+HTTP response by Flask.
+
+</p></details>
+
+### Running the server
+
+Let's leave the tests for now (running `pipenv run nosetests` should yield 7 passing tests) and launch the server:
+
+```bash
+FLASK_ENV=development pipenv run flask run
+```
+
+Now open your browser and go to [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1).
+
+👉 Read the error message and find which line of your code triggers it. Why?
+
+<details><summary>Reveal answer</summary><p>
+
+On line 8 of `app/api/tweets.py`, we retrieve a tweet with id == 1 **but** there is no tweet in the repository
+yet! Then `tweet` is `None`, thus the error:
+
+```
+AttributeError: 'NoneType' object has no attribute 'id'
+```
+
+</p>
+
+To solve this problem, we need to simulate a database with pre-existing tweets at server boot. We can do so with:
+
+```python
+# app/__init__.py
+from flask import Flask # This line already exists
+
+from .db import tweet_repository
+from .models import Tweet
+tweet_repository.add(Tweet("a first tweet"))
+tweet_repository.add(Tweet("a second tweet"))
+
+def create_app():
+    # [...]
+```
+
+Try again [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1). Do you get a nice JSON of your tweet? Hoorah!
