@@ -1,12 +1,15 @@
 ## String Manipulation
 
-
-The String class is one of the most famous classes of Python and programming languages in genereal. A lot of build-in methods already exist to make your life easier and your goal in these exercises will be to:
+The `String` class is one of the most used class of Python and programming languages in general. A lot of build-in methods already exist to make your life easier and your goal in these exercises will be to:
 
 - Learn to look for the right method in the Python doc
 - Get familiar with using the Python interpreter to experiment with new methods and make them yours
 
 The Python interpreter works like this:
+
+```bash
+pipenv run python
+```
 
 1. It reads the expression written by the user, which can be any valid ruby expression like `"Hello"`, `2+2`, `"hello".upper()` ...
 2. It evaluates the result of this expression.
