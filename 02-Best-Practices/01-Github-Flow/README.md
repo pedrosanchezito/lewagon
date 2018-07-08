@@ -141,6 +141,7 @@ git push origin $FEATURE_BRANCH
 
 # Teammate is happy with the changes and **merge** it.
 
+git status # ⚠️ Make sure there is no work pending before changing branches!
 git checkout master
 git pull origin master
 git branch -d $FEATURE_BRANCH
@@ -168,3 +169,10 @@ http://$GITHUB_NICKNAME.github.io/$REPO_NAME/
 Every time a commit happens in `master` (through a merged Pull Request using the GitHub flow), GitHub Pages will automatically deploy the changes to this URL. With this set up, the `Merge` button under a Pull Request becomes a **Deploy** one.
 
 If you own a domain, GitHub Pages also supports [`CNAME`](https://help.github.com/articles/using-a-custom-domain-with-github-pages/) configuration.
+
+## Final thoughts
+
+The power of the GitHub flow comes from being accessible even to `git` beginners. `git` is a very powerful tool and can be intimidating if not introduced correctly. With that flow, anyone in the team can pick up the collaboration process with a little training (what you just did!) and just needs to remember a few commands: `status` (and `diff`), `checkout -b`, `add`, `commit -m`, `push`, `checkout`, `pull`, `branch -d` and that's it.
+
+If you talk with other developers about `git`, some advanced concepts might come up, like `stash`, `cherry-pick`, `rebase`, `reset` or `reflog`. There is plenty of time to learn about those topics (`stash` being in our opinion the easiest and most useful) and adapt your knowledge to your team. We won't cover these topics but at least you have some keywords to Google!
+
