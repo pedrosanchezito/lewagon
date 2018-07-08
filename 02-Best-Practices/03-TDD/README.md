@@ -75,6 +75,7 @@ cd ~/code/$YOUR_GITHUB_USERNAME
 mkdir longest-word && cd $_
 pipenv --python 3.7
 pipenv install nose pylint --dev
+pipenv install --pre --dev astroid # Fix for https://github.com/PyCQA/pylint/issues/2241
 
 touch game.py
 mkdir tests
@@ -224,11 +225,13 @@ A possible implementation of the test would be:
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
         self.assertIs(new_game.is_valid('EUREKA'), True)
+        self.assertEqual(new_game.grid, list('KWEUEAKRZ')) # Make sure the grid remained untouched
 
     def test_is_invalid(self):
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
         self.assertIs(new_game.is_valid('SANDWICH'), False)
+        self.assertEqual(new_game.grid, list('KWEUEAKRZ')) # Make sure the grid remained untouched
 ```
 
 </p></details>
@@ -266,3 +269,18 @@ A possible implemantation is:
 
 <br>
 
+
+## Style
+
+Make sure to make `pylint` happy:
+
+```bash
+pipenv run pylint game.py
+```
+
+You can disable those rules:
+
+```python
+# pylint: disable=missing-docstring
+# pylint: disable=too-few-public-methods
+```
