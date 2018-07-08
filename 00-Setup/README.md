@@ -41,7 +41,16 @@ To check if this step is done, run:
 ssh -T git@github.com
 ```
 
-If it says "Permission denied", call a teacher to help you. If it says "Hi <github_nickname>", you are all set!
+If it says "Permission denied", call a teacher to help you. If it says "Hi <github_nickname>", all good!
+
+At last, we need to configure the local `git` command to tell it who you are when you make a commit:
+
+```bash
+git config --global user.email "your_github_email@domain.com"
+git config --global user.name "Your Full Name"
+```
+
+It's important to use the same email as the one you use on [GitHub](https://github.com/settings/emails) so that [commits are linkedin to your profile](https://help.github.com/articles/why-are-my-commits-linked-to-the-wrong-user/#commits-are-not-linked-to-any-user).
 
 ## Environment
 
