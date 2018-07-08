@@ -113,6 +113,42 @@ git branch -d html-skeleton
 
 That's it! You are ready to work on the next feature branch Start over at the `git checkout -b <branch>` step.
 
+## Practise makes perfect
+
+Take some time to practise this flow. You can create the following feature branches:
+
+- `add-basic-css-style`
+- `add-background-image`
+- ...
+
+Remember, it's always the same flow:
+
+```bash
+# IMPORTANT: Start from a `master` with a **clean** `git status`.
+
+git checkout -b $FEATURE_BRANCH
+
+# Write some code
+
+git status # Which files were changed?
+git add <file1> <file2> ...
+git commit -m "Quickly describe to your teammates what you did here"
+git push origin $FEATURE_BRANCH
+
+# Go to github.com - Open a Pull Request. Ask a teammate to review
+
+# Do some more commits on the branch with your teammate feedback
+
+# Teammate is happy with the changes and **merge** it.
+
+git checkout master
+git pull origin master
+git branch -d $FEATURE_BRANCH
+
+# Start over!
+```
+
+
 ## Bonus - GitHub Pages
 
 If you have a simple **static** website to host, GitHub provides a great solution: [GitHub Pages](https://pages.github.com/). You can turn a repository into a host provider!
