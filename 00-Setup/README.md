@@ -1,45 +1,49 @@
 # Setup
 
-## Text Editor
+You will work on Windows 10 with the Le Wagon PCs.
 
-This is where you will write Python, HTML & CSS code. [Grab it](https://www.sublimetext.com/) and install it. It's not free but you can use it `UNREGISTERED` for how long you want. Just hit `Esc` every time the pop-up comes in (~ every 10 file save).
+Here is a list of what we already installed for you:
 
-## Python & `pipenv`
+- Google Chrome
+- Slack
+- **Sublime Text 3** (Unlicensed but unlimited usage) with [Package Control](https://packagecontrol.io/)
+- Python 3.7 & [`pipenv`](https://docs.pipenv.org/)
+- `git` & **Git Bash**
 
-The recommended way of install Python nowadays is with [`pipenv`](https://docs.pipenv.org/). It automatically creates and manages a [virtualenv](https://virtualenv.pypa.io/en/stable/) for every project, as well as adds/removes packages from your Pipfile as you install/uninstall packages. It also generates the ever–important Pipfile.lock, which is used to produce deterministic builds.
+Your `$PATH` should be all set to work with the required binaries.
 
-To create a new project, use this sequence:
-
-```bash
-cd ~/code/<your_username>
-mkdir new_project && cd $_
-pipenv --three # This will create a Pipfile and a virtualenv
-```
-
-Then you can easily install dependencies:
+Open Git Bash and check some versions:
 
 ```bash
-pipenv install nose rednose --dev
-pipenv install flask
+git --version
+python --version
+pipenv --version
 ```
 
-To run a Python program in the context of the releveant virtualenv, run:
+## Your turn!
+
+There still some configuration left for **you** to do.
+
+### GitHub
+
+We will use your personal public `github.com` account. If you are reading this, it means that you have one and are logged in with it!
+
+We need to create a SSH key on your computer and link it to your GitHub account. At the end of the week, don't forget to remove this key from your GitHub account as this is not your computer. Protecting your key with a strong **passphrase** will guarantee security during the week.
+
+GitHub has handy tutorials. Follow them:
+
+1. [Generate a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#platform-windows)
+1. [Add this key to your GitHub account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-windows)
+
+To check if this step is done, run:
 
 ```bash
-pipenv shell
-python file.py
-exit # To quit the current virtual env.
+ssh git@github.com
 ```
 
-Or you can do directly:
+If it says "Permission denied", call a teacher to help you. If it says "Hi <github_nickname>", you are all set!
 
-```bash
-pipenv run python file.py
-```
+## Exercises
 
-Time to add these aliases in your `~/.zshrc`:
+Let's start working on the first exercise! Go to [`01-OOP/01-Sum-Of-Three`](../01-OOP/01-Sum-Of-Three). Good luck!
 
-```bash
-alias pr="pipenv run"
-alias prp="pipenv run python"
-```
