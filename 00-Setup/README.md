@@ -90,6 +90,45 @@ alias prp="pipenv run python"
 
 Save and quit with `Esc`, `:wq` and `Enter`. Close and start again Git Bash. It should ask for your SSH key passphrase as it stores it in the SSH agent. This way you won't have to re-type it for every `git` command further on.
 
+## Sublime Text
+
+This text editor comes with great support for Python coding, still experience can be improved with installing the following from Package Control. To install a package, hit `Ctrl` + `Shift` + `P` top open the _command palette_. Then type `install` to select the `Package Control: Install Package` option, type `Enter`. For a few seconds it will load a list of repositories. Then look for the first one in the list. Repeat the process for every item in the list:
+
+- A File Icon (Restart Sublime after installing this one)
+- Magic Python (Then `Ctrl` + `Shift` + `P` - `Disable Package` - `Python`)
+- Git Gutter
+
+Then open the preferences (`Preferences > Settings` in the menu). On the right panel, you'll have a JSON you can update with:
+
+```json
+{
+  "always_show_minimap_viewport": false,
+  "ensure_newline_at_eof_on_save": true,
+  "folder_exclude_patterns":
+  [
+    "__pycache__",
+    ".git"
+  ],
+  "highlight_modified_tabs": true,
+  "hot_exit": false,
+  "ignored_packages":
+  [
+    "Python",
+    "Vintage"
+  ],
+  "overlay_scroll_bars": "enabled",
+  "remember_open_files": false,
+  "rulers":
+  [
+    80
+  ],
+  "tab_size": 4,
+  "translate_tabs_to_spaces": true,
+  "trim_automatic_white_space": true,
+  "trim_trailing_white_space_on_save": true,
+}
+```
+
 ## Exercises
 
 This repository contains all the exercises for the week. To work on them, clone them on your laptop. Still in Git Bash, run:
