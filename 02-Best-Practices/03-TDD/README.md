@@ -181,6 +181,8 @@ Did you get this quick feedback loop? We run the test, we get an error message, 
 
 ❓ Try to implement the `Game` code to make this test pass. Don't look at the solution just yet, try to apply TDD on this problem!
 
+💡 You can use `print()` or `import pdb; pdb.set_trace()` in combination with `nosetests -s`.
+
 <details><summary>View solution</summary><p>
 
 One possible implementation is:
@@ -195,6 +197,69 @@ class Game:
         self.grid = []
         for _ in range(9):
             self.grid.append(random.choice(string.ascii_uppercase))
+```
+
+</p></details>
+
+<br>
+
+## Checking the validity of a word
+
+Let's move to the second method of our `Game` class.
+
+We use **TDD**, which means that we need to write the test **first**. For the first test, we gave away the code.
+
+❓ It's your turn to implement a test for this new `is_valid(self, word)` method! See, we already gave you the method [signature](https://en.wikipedia.org/wiki/Type_signature#Method_signature)...
+
+<details><summary>View solution</summary><p>
+
+A possible implementation of the test would be:
+
+```python
+# tests/test_game.py
+
+# [...]
+
+    def test_is_valid(self):
+        new_game = Game()
+        new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
+        self.assertIs(new_game.is_valid('EUREKA'), True)
+
+    def test_is_invalid(self):
+        new_game = Game()
+        new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
+        self.assertIs(new_game.is_valid('SANDWICH'), False)
+```
+
+</p></details>
+
+<br>
+
+Run the tests to make sure they are not passing:
+
+```bash
+pipenv run nosetests
+```
+
+❓ It's your turn! Update the `game.py` implementation to make the tests pass!
+
+<details><summary>View solution</summary><p>
+
+A possible implemantation is:
+
+```python
+# game.py
+
+# [...]
+
+    def is_valid(self, word):
+        letters = self.grid.copy() # Consume letters from the grid
+        for letter in word:
+            if letter in letters:
+                letters.remove(letter)
+            else:
+                return False
+        return True
 ```
 
 </p></details>
