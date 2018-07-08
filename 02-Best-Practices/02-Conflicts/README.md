@@ -136,7 +136,7 @@ The conflict is solved, Developer B can keep working in `feature-b` until the fe
 
 Find a buddy to replicate this scenario:
 
-1. One of you creates the repository locally with the HTML skeleton described above.
+1. One of you creates the repository locally with the HTML skeleton described above. Don't reuse the `github-flow` repository but re-use the technique! You can name this new repo `git-conflict`.
 1. The same developer goes to GitHub, create the repository and add the other as a collaborator
 1. The same developer adds the **remote** and `push`es.
 1. The other developer **clones** the repository.
