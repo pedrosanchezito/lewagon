@@ -29,7 +29,7 @@ You can save it to a file `args.py` and run it:
 ```bash
 pipenv run python args.py arg1 arg2 arg3
 # Number of arguments: 4 arguments.
-# Argument List: ['test.py', 'arg1', 'arg2', 'arg3']
+# Argument List: ['args.py', 'arg1', 'arg2', 'arg3']
 ```
 
 [`sys.argv`](https://docs.python.org/3/library/sys.html#sys.argv) is a python **list** containing the command line arguments passed to a Python script. `argv[0]` is always the script name.
