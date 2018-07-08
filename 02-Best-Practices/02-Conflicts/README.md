@@ -1,8 +1,8 @@
-# `git` conflicts
+# Handling `git` conflicts
 
 When using a source control software like `git`, conflicts **always** arise at some point. It's just a matter of time. Let's use this exercise to understand the scenarios which always lead to conflict. Knowing that will help prevent the conflicts! Of course, we will also cover how to deal with a conflict.
 
-## `master` changes
+## GitHub flow most common conflict scenario
 
 Imagine the following scenario:
 
@@ -133,3 +133,25 @@ The conflict is solved, Developer B can keep working in `feature-b` until the fe
 <br>
 
 ### Your turn!
+
+Find a buddy to replicate this scenario:
+
+1. One of you creates the repository locally with the HTML skeleton described above.
+1. The same developer goes to GitHub, create the repository and add the other as a collaborator
+1. The same developer adds the **remote** and `push`es.
+1. The other developer **clones** the repository.
+1. `git log` should show only one commit on both laptop
+1. You are ready to replicate the above scenario with the two feature branches! Remember to open two pull request. The first one will be merged easily, and the second one won't be mergeable because of the conflict.
+
+Don't hesitate to ask a teacher if you are confused with a step.
+
+## Going futher
+
+Conflicts are not the only problem you will have using `git`. Sometimes you just want to discard local modifications, or undo a commit, even harder undo a commit _you already pushed_, etc. Take some time to read the following resources:
+
+- [10 Common git problems](https://www.codementor.io/citizen428/git-tutorial-10-common-git-problems-and-how-to-fix-them-aajv0katd)
+- [Oh, shit, git!](http://ohshitgit.com/)
+
+Also, sometimes you have work in progress in a branch that you don't want to commit, but you need to change branches and can't do so if your `git status` is clean. The solution is to use [`git stash`](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)!
+
+Finally, `git` can also be used with advanced GUIs. Usually, developers tend to stick in the command line but sometimes, especially to **visualize diffs**, using a GUI can help a lot. You can download [GitHub Desktop](https://desktop.github.com/) and try it. The interface is very simple, browsing the history pleasant and re-reading a diff before a `commit` something worth considering the tool.
