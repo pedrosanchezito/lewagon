@@ -38,12 +38,76 @@ GitHub has handy tutorials. Follow them:
 To check if this step is done, run:
 
 ```bash
-ssh git@github.com
+ssh -T git@github.com
 ```
 
 If it says "Permission denied", call a teacher to help you. If it says "Hi <github_nickname>", you are all set!
 
+## Environment
+
+Let's save ourselves sometimes by configuring the environment. Open the `bashrc` file with `vim`:
+
+```bash
+vim ~/.profile
+```
+
+Enter the `INSERTION` vim mode with `i`. Then copy paste (Shift + Insert) the following the configuration:
+
+```bash
+# ~/.profile
+
+# https://github.com/huygn/til/issues/26
+env=~/.ssh/agent.env
+
+agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+
+agent_start () {
+    (umask 077; ssh-agent >| "$env")
+    . "$env" >| /dev/null ; }
+
+agent_load_env
+
+# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2= agent not running
+agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+    agent_start
+    ssh-add
+elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+    ssh-add
+fi
+
+unset env
+
+# Open Sublime Text from Git Bash
+alias subl="/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
+
+# Python specifics
+alias python="winpty python" # https://stackoverflow.com/a/33696825/197944
+alias pr="pipenv run"
+alias prp="pipenv run python"
+```
+
+Save and quit with `Esc`, `:wq` and `Enter`. Close and start again Git Bash. It should ask for your SSH key passphrase as it stores it in the SSH agent. This way you won't have to re-type it for every `git` command further on.
+
 ## Exercises
+
+This repository contains all the exercises for the week. To work on them, clone them on your laptop. Still in Git Bash, run:
+
+```bash
+mkdir -p ~/code/lewagon && cd $_
+git clone git@github.com:lewagon/reboot-python.git
+cd reboot-python
+pwd # This is your exercise repository!
+```
+
+This repository has a `Pipfile`. You now can easily install dependencies with the following command:
+
+```bash
+pipenv install --dev # to install `packages` **and** `dev-packages`
+```
+
+It will create the Virtualenv for this folder, using Python 3.7 as [specified](https://github.com/lewagon/reboot-python/blob/master/Pipfile#L15-L16)
 
 Let's start working on the first exercise! Go to [`01-OOP/01-Sum-Of-Three`](../01-OOP/01-Sum-Of-Three). Good luck!
 

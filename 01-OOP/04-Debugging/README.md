@@ -11,7 +11,7 @@ In this exercise, we will focus on Interactive debugging & control flow analysis
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/04-Debugging
-stt # Open the folder in Sublime Text
+subl .
 ```
 
 ## The Python Debugger

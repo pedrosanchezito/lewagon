@@ -33,7 +33,7 @@ type(4)
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/05-String-Manipulation
-stt # Open the folder in Sublime Text
+subl .
 pipenv run nosetests
 pipenv run pylint string_methods.py
 ```

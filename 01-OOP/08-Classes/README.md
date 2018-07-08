@@ -9,7 +9,7 @@ Take some time to read [9.3 - A first look at classes](https://docs.python.org/3
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/08-Classes
-stt # Open the folder in Sublime Text
+subl .
 ```
 
 ## Your first class

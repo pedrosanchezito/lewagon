@@ -7,7 +7,7 @@ Another way of modifying the behavior of a Python script (other than command lin
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/03-Environment
-stt # Open the folder in Sublime Text
+subl .
 pipenv run nosetests
 pipenv run pylint flask_option.py
 ```

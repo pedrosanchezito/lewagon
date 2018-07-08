@@ -9,7 +9,6 @@ gunicorn = "*"
 
 [dev-packages]
 nose = "*"
-rednose = "*"
 astroid = "*"
 pylint = "*"
 

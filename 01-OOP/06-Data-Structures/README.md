@@ -17,7 +17,7 @@ All read? Let's code!
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/06-Data-Structures
-stt # Open the folder in Sublime Text
+subl .
 ```
 
 ## Exercise

@@ -17,7 +17,7 @@ A sudoku is valid if and only if:
 ```bash
 cd ~/code/<your_username>/reboot-python
 cd 01-OOP/09-Optional-Sudoku
-stt # Open the folder in Sublime Text
+subl .
 ```
 
 ## Data Model
