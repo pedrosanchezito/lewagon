@@ -175,7 +175,7 @@ class Game:
 
 <br>
 
-Don't forget to run the tests locally until you have 4 passing tests. When you are done, time to observe the effect on GitHub / Travis CI!
+Don't forget to run the tests locally until you have 5 passing tests. When you are done, time to observe the effect on GitHub / Travis CI!
 
 ```bash
 git add .

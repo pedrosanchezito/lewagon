@@ -221,6 +221,10 @@ A possible implementation of the test would be:
 
 # [...]
 
+    def test_empty_word_is_invalid(self):
+        new_game = Game()
+        self.assertIs(new_game.is_valid(''), False)
+
     def test_is_valid(self):
         new_game = Game()
         new_game.grid = list('KWEUEAKRZ') # Force the grid to a test case:
@@ -256,6 +260,8 @@ A possible implemantation is:
 # [...]
 
     def is_valid(self, word):
+        if not word:
+            return False
         letters = self.grid.copy() # Consume letters from the grid
         for letter in word:
             if letter in letters:
