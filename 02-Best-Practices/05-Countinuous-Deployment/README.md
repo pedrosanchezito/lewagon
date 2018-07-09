@@ -199,10 +199,123 @@ git push origin http-server
 # head to github.com to open a Pull Request!
 ```
 
-## Heroku
+## Heroku Setup
 
+Before we can deploy our neat little web application, we need to set up a Heroku account. If you already have one, great, you can use this one. Otherwise, [sign up](https://signup.heroku.com/) (it's free to try). Put an email address that you can easily access as you will need to click on a confirmation link.
 
+Once your account is created, you need to install the command line tool. Go to [this Heroku Dev Center page](https://devcenter.heroku.com/articles/getting-started-with-python#set-up), download the CLI and install it. Do not leave the `Git` option tick in the components to install as you already have it! Leave `Heroku CLI` and `Set PATH...` ticked.
 
+Open Git Bash and log in:
+
+```bash
+heroku update
+heroku login
+```
+
+If there is an issue, you may [need to use `winpty`](https://github.com/heroku/cli/issues/84)
+
+We can now prepare our app to run on Heroku. There is just one little missing piece: we need to tell Heroku how to **start** our application. To do so, we need to create a special file:
+
+```bash
+git status # is it clean?
+git checkout master
+git pull origin master
+
+# Let's work on `master` for this specific case, not in a branch.
+touch Procfile
+```
+
+And put the following in this `Procfile`:
+
+```bash
+# Procfile
+web: gunicorn wsgi:app
+```
+
+We can't use the regular `flask run` command in production, we must use [`gunicorn`](https://devcenter.heroku.com/articles/python-gunicorn) which stills need to be added to the `Pipfile`:
+
+```bash
+pipenv install gunicorn
+git add .
+git commit -m "Add Procfile to prepare Heroku deployment"
+git push origin master
+```
+
+Our app is now ready to be deployed to Heroku. First we need to create a remote application which will provision a [dyno](https://www.heroku.com/dynos) in their cloud.
+
+```bash
+heroku create --region=eu # We want to use the EU datacenter to be closer to us
+git remote -v
+# See? There's not only `origin` as a remote now!
+git push heroku master # That's the actual deployment command!
+
+# Once our application is deploy, we can open it in Chrome with:
+heroku open
+```
+
+All good? If not, you can debug production with `heroku logs --tail` and of course ask a TA.
+
+## Continuous Deployment
+
+We are almost there. A quick recap gives us:
+
+1. Our code is on GitHub
+1. We have Continuous Integration set up thanks to Travis
+1. Every commit (in `master` or a feature branch) triggers a Travis build
+1. A Pull Request status is updated by Travis and gives context to reviewer
+1. We still need to **manually** run the `git push heroku master` command to deploy
+
+Let's automated this last part and reach the graal!
+
+Head over to [dashboard.heroku.com](https://dashboard.heroku.com). Click on your application hosting the `longest-word`.
+
+ Go to the `Deploy` tab (the third one). If you scroll down, you would see a `Deployment method` section. Click on `GitHub`. Scroll down and click on the `Connect to GitHub` purple button.
+
+ You will then be able to select the `longest-word` repository and **connect** it to this Heroku app.
+
+ After this step, if you scroll down a bit again, you will find the `Automatic deploys` section. That's where you'll be able to tick the `Wait for CI to pass before deploy`, select `master` (default) in the dropdown, and click on the **Enable Automatic Deploys** black button.
+
+ That's it! But is it really working?
+
+ ---
+
+ Let's test it!
+
+ Let's do a very simple change. We will update the background-color of grid letters.
+
+```bash
+git checkout -b yellow-letter
+```
+
+```css
+/* static/style.css */
+/* [...] */
+.letter {
+  /* [...] */
+  background-color: #FFEB3B;
+  color: #666;
+}
+```
+
+You can test it locally with `FLASK_ENV=development pipenv run flask run`. If the CSS change are not picked up, do a [force-refresh](https://superuser.com/a/89811).
+
+Happy with the color? Let's commit:
+
+```bash
+git add static/style.css
+git commit -m "Change letter grid background-color to yellow"
+git push origin yellow-letter
+```
+
+Go to github.com, create a Pull Request and wait for Travis to turn it green.
+
+While Travis is working, open another Chrome tab and go the `Activity` tab (the 5th one) of your Heroku application to visualize your acitivty feed. Leave this tab open.
+
+Come back to the Pull Request, and as soon as it is green, merge it to `master`. Go back to the Heroku tab, and wait ~1 minute (in GitHub you can have a look at the `Commits` page and see that the latest merge commit is being tested by Travis, thanks to the little orange dot).
+
+Did you get it? Did you get an automated build/deployment on Heroku thanks to a green light from Travis to a new merge commit on `master` on GitHub?
+
+👏 👏 👏
 
 ## Going further
 
