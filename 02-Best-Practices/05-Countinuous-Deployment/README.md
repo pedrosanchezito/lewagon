@@ -319,6 +319,4 @@ Did you get it? Did you get an automated build/deployment on Heroku thanks to a 
 
 ## Going further
 
-Big PR? New feature?
-
-- [Feature Toggle](https://en.wikipedia.org/wiki/Feature_toggle)
+This kind of development with small feature branches which are automatically deployed to production as soon as they are merged to master might not work for big feature which need several steps, several pull request, etc. You don't want to keep a feature branch open for weeks as the Pull Request would be basically horrible to review, and merging it back to `master` would be a nightmare. We still encourage small pull requests, but hide the feature being developed behind a [**feature toggle**](https://en.wikipedia.org/wiki/Feature_toggle).
