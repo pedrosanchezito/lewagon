@@ -116,7 +116,7 @@ We are using an external module called [`Flask Testing`](https://pythonhosted.or
 ![](https://pythonhosted.org/Flask-Testing/_static/flask-testing.png)
 
 ```bash
-pipenv install flask-testing nose rednose --dev
+pipenv install flask-testing nose --dev
 ```
 
 Now let's create the `tests` directory and a first test file. This test file is about **views**, which is the component the closest to the HTTP response in a MVC framework (more on that later):
@@ -148,9 +148,29 @@ class TestViews(TestCase):
 Then open the terminal and run:
 
 ```bash
-pipenv run nosetests --nocapture
+pipenv run nosetests -s
 ```
 
 👉 Your test should be failing. How do you fix the code in `wsgi.py` to make the test green?
 
-(`--no-capture` flag is useful to actually view your `print()` debugging statements).
+(`-s` flag is useful to actually view your `print()` statements, or use `pdb`).
+
+## CRUD
+
+Congratulations :tada: ! You wrote the first route of the RESTful API. Now it's time to implement the four other endpoints to properly implement CRUD on the `product` resource.
+
+### Read
+
+First add a test for the `GET /api/v1/products/:id` route. Then implement it. This route retrieves a single `product` and serve a JSON representation of it (Status code: `200`). If the `:id` does not match any know product id then return a [`404`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) (add a separate test case for this).
+
+### Delete
+
+Add a test for the `DELETE /api/v1/products/:id` route. This route will **remove** a single `product` from the fake `the_products` database. Return an empty response with status code [`204`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204).
+
+### Create
+
+Start by adding a test for the `POST /api/v1/products` route. This route will **create** a new product in the fake `the_products` database and return the JSON representation of the newly created resource (Status code: [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201))
+
+### Update
+
+Finally, add a test for the `PATCH /api/v1/products/:id` route which will **update** an existing product (based on its id). Return a `204` when completed, or `422` if there is a validation error (needs a separate test case, validation error could be that supplied product name is _empty_)
