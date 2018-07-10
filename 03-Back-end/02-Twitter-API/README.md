@@ -605,3 +605,15 @@ def create_app():
 ```
 
 Try again [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1). Do you get a nice JSON of your tweet? Hoorah!
+
+</details>
+
+## Going further
+
+If you reached this part, you get the gist of building a RESTful API with Flask. It's time to practise!
+
+- Implement the remaining endpoints to have a full `CRUD` RESTful API! Today we don't care about User Authorization for create, update & delete
+- Use the GitHub flow for each new endpoint!
+- Deploy often! Everytime you merge a branch with a new endpoint, `git push heroku master`!
+
+Good luck 😉
