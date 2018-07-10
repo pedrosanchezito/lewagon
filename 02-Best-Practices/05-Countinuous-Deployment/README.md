@@ -320,3 +320,9 @@ Did you get it? Did you get an automated build/deployment on Heroku thanks to a 
 ## Going further
 
 This kind of development with small feature branches which are automatically deployed to production as soon as they are merged to master might not work for big feature which need several steps, several pull request, etc. You don't want to keep a feature branch open for weeks as the Pull Request would be basically horrible to review, and merging it back to `master` would be a nightmare. We still encourage small pull requests, but hide the feature being developed behind a [**feature toggle**](https://en.wikipedia.org/wiki/Feature_toggle).
+
+## (Optional) Score & Session
+
+If you are done with all the exercises of the day, go back to the optional sudoku from yesterday if you did not finish it (or exercises before).
+
+If this is done as well, have a look at the [Flask documentation](http://flask.pocoo.org/). We will cover Flask in tomorrow's lecture, in the meantime, you can try to implement a feature in the Longest Word Game: a global **score**! The idea is that every time a user finds a valid word, you increments points (1 point per letter). As HTTP is stateless, you need to use [this Flask extension](https://pythonhosted.org/Flask-Session/) to handle the concept of **session** (with `SESSION_TYPE='filesystem'`).
