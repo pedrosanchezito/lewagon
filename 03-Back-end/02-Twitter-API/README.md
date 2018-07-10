@@ -253,6 +253,8 @@ touch app/models.py
 ```
 </p></details>
 
+<br />
+
 Run the tests again **until the error message changes**. You should get this one:
 
 ```bash
@@ -278,6 +280,8 @@ class Tweet:
     pass
 ```
 </p></details>
+
+<br />
 
 The next error should be:
 
@@ -306,6 +310,8 @@ class Tweet:
 
 </p></details>
 
+<br />
+
 
 The next two errors should complain about:
 
@@ -333,6 +339,8 @@ class Tweet:
 ```
 
 </p></details>
+
+<br />
 
 ✨ Congrats! you juse implemented the `Tweet` class using TDD.
 
@@ -396,6 +404,8 @@ class TestTweetRepository(TestCase):
 
 </p></details>
 
+<br />
+
 :question: Once the test is written, try to implement the `Tweetrepository` class using the
 same TDD technique we used to implement the `Tweet` class.
 
@@ -423,6 +433,8 @@ class TweetRepository:
 💡 See how the test file is way longer than the actual implementation?
 
 </p></details>
+
+<br />
 
 ### Controller + Route
 
@@ -551,6 +563,8 @@ retrieved from the `tweet_repository`) and we converted it into a JSON string to
 HTTP response by Flask.
 
 </p></details>
+
+<br />
 
 ### Running the server
 
