@@ -159,6 +159,8 @@ pipenv run nosetests -s
 
 Congratulations :tada: ! You wrote the first route of the RESTful API. Now it's time to implement the four other endpoints to properly implement CRUD on the `product` resource.
 
+Practise the [GitHub Flow](../../02-Best-Practices/01-Github-Flow) with four feature branches (one per `CRUD` acronym letter), and push to `heroku` after each Pull Request merge!
+
 ### Read
 
 First add a test for the `GET /api/v1/products/:id` route. Then implement it. This route retrieves a single `product` and serve a JSON representation of it (Status code: `200`). If the `:id` does not match any know product id then return a [`404`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) (add a separate test case for this).
@@ -174,3 +176,5 @@ Start by adding a test for the `POST /api/v1/products` route. This route will **
 ### Update
 
 Finally, add a test for the `PATCH /api/v1/products/:id` route which will **update** an existing product (based on its id). Return a `204` when completed, or `422` if there is a validation error (needs a separate test case, validation error could be that supplied product name is _empty_)
+
+
