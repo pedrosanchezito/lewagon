@@ -13,7 +13,7 @@ GitHub put together a [nice little guide](https://guides.github.com/introduction
 Before we actually do our first commit, we need to create a GitHub repository!
 
 1. Log in to GitHub
-1. Go to [github.com/new](https://git§hub.com/new) and create a _public_ repository under your _personal_ account, name it `github-flow`.
+1. Go to [github.com/new](https://github.com/new) and create a _public_ repository under your _personal_ account, name it `github-flow`.
 1. Go to your terminal and create a new repository locall. Add GitHub as the `origin` remote:
 
 ```bash
