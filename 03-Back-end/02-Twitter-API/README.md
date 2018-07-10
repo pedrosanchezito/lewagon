@@ -113,7 +113,7 @@ Open your browser and visit [`localhost:5000`](http://localhost:5000). You shoul
 Let's set up our app so that writing test is easy and TDD is possible:
 
 ```bash
-pipenv install flask-testing nose rednose --dev
+pipenv install flask-testing nose --dev
 ```
 
 Let's create our `tests` folders and a first file
@@ -146,7 +146,7 @@ class TestHomeView(TestCase):
 Open the terminal and run:
 
 ```bash
-pipenv run nosetests --nocapture
+pipenv run nosetests -s
 ```
 
 The test should be red!
@@ -242,9 +242,9 @@ You should get something which looks like this:
    ModuleNotFoundError: No module named 'app.models'
 ```
 
-👉 What's next? **Read the error message and try to fix it**
+:question: What's next? **Read the error message and try to fix it**
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 You must create the `models.py` file so that this module is defined!
 
@@ -265,9 +265,9 @@ Run the tests again **until the error message changes**. You should get this one
    ImportError: cannot import name 'Tweet'
 ```
 
-👉 What is the **minimum** code change you can do to fix this error?
+:question: What is the **minimum** code change you can do to fix this error?
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 The error complains about the fact that `Tweet` is not defined. The minimum code
 change we can do is to create an **empty** class:
@@ -291,9 +291,9 @@ The next error should be:
    TypeError: object() takes no parameters
 ```
 
-👉 What is the **minimum** code change you can do to fix this error?
+:question: What is the **minimum** code change you can do to fix this error?
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 Our `Tweet` class is empty and needs an [instance variable](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables) `text`:
 
@@ -313,9 +313,9 @@ The next two errors should complain about:
 'Tweet' object has no attribute [...]
 ```
 
-👉 How can we fix this last two errors and make the test pass?
+:question: How can we fix this last two errors and make the test pass?
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 Our `Tweet` class is missing the `created_at` instance variable, automatically
 set to [the current time](https://stackoverflow.com/questions/415511/how-to-get-current-time-in-python).
@@ -356,9 +356,9 @@ Let's use TDD to implement this class!
 touch tests/test_repositories.py
 ```
 
-👉 This time, try to write the test yourself.
+:question: This time, try to write the test yourself.
 
-<details><summary>Reveal answer (Really try first 🙏)</summary><p>
+<details><summary>View solution (Really try first 🙏)</summary><p>
 
 ```python
 # tests/test_repositories.py
@@ -396,10 +396,10 @@ class TestTweetRepository(TestCase):
 
 </p></details>
 
-Once the test is written, try to implement the `Tweetrepository` class using the
+:question: Once the test is written, try to implement the `Tweetrepository` class using the
 same TDD technique we used to implement the `Tweet` class.
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 ```python
 # app/repositories.py
@@ -518,13 +518,13 @@ def create_app():
     # [...]
 ```
 
-👉 Implement the `Blueprint` to make the test pass. Use a [variable rule](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) for the dynamic id.
+:question: Implement the `Blueprint` to make the test pass. Use a [variable rule](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) for the dynamic id.
 
 ```bash
-pipenv run nosetests tests/api/test_tweet_views.py --nocapture
+pipenv run nosetests tests/api/test_tweet_views.py -s
 ```
 
-<details><summary>Reveal answer (Really try first 🙏)</summary><p>
+<details><summary>View solution (Really try first 🙏)</summary><p>
 
 A naive implementation would be to use [`jsonify`](http://flask.pocoo.org/docs/1.0/api/#flask.json.jsonify)
 on a `dict` built from the `Tweet` instance variables.
@@ -562,9 +562,9 @@ FLASK_ENV=development pipenv run flask run
 
 Now open your browser and go to [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1).
 
-👉 Read the error message and find which line of your code triggers it. Why?
+:question: Read the error message and find which line of your code triggers it. Why?
 
-<details><summary>Reveal answer</summary><p>
+<details><summary>View solution</summary><p>
 
 On line 8 of `app/api/tweets.py`, we retrieve a tweet with id == 1 **but** there is no tweet in the repository
 yet! Then `tweet` is `None`, thus the error:
