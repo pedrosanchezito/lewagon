@@ -1,4 +1,4 @@
-# Flask Recap
+# Flask CRUD
 
 ![](http://flask.pocoo.org/static/logo/flask.png)
 
