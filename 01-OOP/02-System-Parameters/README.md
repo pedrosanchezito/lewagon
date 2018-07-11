@@ -42,9 +42,9 @@ Let's write a simple calculator for **integers**. Here's how it should work:
 alias prp="pipenv run python"
 prp calc.py 4 + 5
 # => 9
-prp calc 2 \* 6
+prp calc.py 2 \* 6
 # => 12
-prp calc 3 - 9
+prp calc.py 3 - 9
 # => -6
 ```
 
