@@ -53,18 +53,19 @@ Try to edit the code and reload the page in the browser. 💡 What is happenning
 
 ### Production run
 
-In production, we don't want to use the default server, but something like [Gunicorn](http://gunicorn.org/), already installed in the `Pipfile` thanks to a previous command.
+In production, we don't want to use the default Flask server, optimized for development, but something like [Gunicorn](http://gunicorn.org/), already installed in the `Pipfile` thanks to a previous command.
 
-We can test the production configuration with:
+The production server will run this code:
 
 ```bash
 # Ctrl-C to kill the previous server
 pipenv run gunicorn wsgi:app --access-logfile=-
 ```
 
-Open your browser and visit [`localhost:8000`](http://localhost:8000). Again you should see "Hello world!".
+:bulb: If you launch this on Windows, it will fail as gunicorn does not support (yet?) Windows:
 
-Try to edit the code and reload the page in the browser. 💡 What is happenning?
+- https://github.com/benoitc/gunicorn/issues/524
+- https://stackoverflow.com/questions/11087682/does-gunicorn-run-on-windows (they talk about [`waitress`](https://docs.pylonsproject.org/projects/waitress))
 
 ## Heroku
 
@@ -72,7 +73,9 @@ Let's try to deploy this application to Heroku:
 
 ```bash
 echo "web: gunicorn wsgi:app --access-logfile=-" > Procfile
+```
 
+```bash
 git init
 git add .
 git commit -m "First deployment of Flask boilerplate"
