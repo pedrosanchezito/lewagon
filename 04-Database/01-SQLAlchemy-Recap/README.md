@@ -184,7 +184,7 @@ Once the first model has been created, we can include it into the main file:
 from models import Product
 ```
 
-We are now going to set up Alambic to generate our first migration and upgrade the database to actually **create** the product table.
+We are now going to set up Alambic to generate our first migration and upgrade the database to actually **create** the `products` table.
 
 ```bash
 touch manage.py
@@ -232,8 +232,8 @@ To manually check that the schema now contains a `product` table, re-connect to 
 export PATH="$PATH:/c/Program Files/PostgreSQL/10/bin"
 winpty psql -U postgres -d flask_db
 flask_db=# \dt
-# You should see two tables: `product` and `alembic_version`!
-flask_db#= \d product
+# You should see two tables: `products` and `alembic_version`!
+flask_db#= \d products
 # You should see the two columns of the table `product`: `id` and `name`
 flask_db#= \q
 ```
@@ -257,7 +257,7 @@ Go back to the terminal and run the `update` command once again. What happened i
 ```bash
 export PATH="$PATH:/c/Program Files/PostgreSQL/10/bin"
 winpty psql -U postgres -d flask_db
-flask_db#= \d product
+flask_db#= \d products
 # You should now see three columns in this table
 flask_db#= \q
 ```
