@@ -252,7 +252,7 @@ class Product(db.Model):
     description = db.Column(db.Text())
 ```
 
-Go back to the terminal and run the `update` command once again. What happened in `migrations/versions`? Read this new file and then run the `upgrade -m "add description to products"` command. You can check that this worked with:
+Go back to the terminal and run the `migrate -m "add description to products"` command. What happened in `migrations/versions`? Read this new file and then run the `upgrade` command. You can check that this worked with:
 
 ```bash
 export PATH="$PATH:/c/Program Files/PostgreSQL/10/bin"
@@ -264,7 +264,7 @@ flask_db#= \q
 
 ## Inserting a record
 
-Our databse schema is ready. We used the command line `psql` to query it. We can now use pgAdmin 4 to query the database for records. Launch pgAdmin from the Windows Start menu. It should open `localhost:53042` in Chrome. In the tree, go to `Servers` > `PostgreSQL 10` > `Databases` > `flask_db` > `Schemas` > `public` > `Tables` > `product` and right clic on it: `View/Edit Data` > `All rows`. It will generate the `SELECT` SQL query for you. Click on the button with a little thunder ⚡️ to run the query. There should be _no_ records.
+Our databse schema is ready. We used the command line `psql` to query it. We can now use pgAdmin 4 to query the database for records. Launch pgAdmin from the Windows Start menu. It should open `localhost:53042` in Chrome. In the tree, go to `Servers` > `PostgreSQL 10` > `Databases` > `flask_db` > `Schemas` > `public` > `Tables` > `products` and right clic on it: `View/Edit Data` > `All rows`. It will generate the `SELECT` SQL query for you. Click on the button with a little thunder ⚡️ to run the query. There should be _no_ records.
 
 Let's insert two products in the Database! We can use the [flask shell feature](http://flask.pocoo.org/docs/1.0/cli/#open-a-shell).
 
