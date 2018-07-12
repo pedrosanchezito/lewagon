@@ -1,0 +1,50 @@
+# Authentication
+
+Let's go back to our Twitter API:
+
+```bash
+cd ~/code/<github_username>/twitter-api
+pipenv install flask-oauthlib
+```
+
+All the API endpoints are available for anyone to call. Nothing is protected. Still, we need to apply some basic security rules like:
+
+- A user must be "logged in" to the API to create a Tweet
+- Only a user may delete their tweet
+- etc.
+
+## Key Based Authentication
+
+You should have a `User` model. If you don't, add one.
+
+Add a new column to your model: `api_key`. The goal is to store a long, unique and random token for a user at creation. You can achieve this with a [`before_insert` event](https://stackoverflow.com/a/12513904/197944).
+
+Once a user has an API key, implement the logic to make sure that a valid user can create a tweet / only a tweet author can delete his/her tweet. A simple implementation would be to consider the `?api_key=....` is passed in the query string.
+
+## OAuth
+
+Consider the official Twitter API, or the GitHub API. THey both provide authentication through OAuth meaning they allow third-party developers to let their users connect to Twitter/GitHub and grand access to a given `scope` of their API.
+
+As we are building an API ourselves, we may want to protect it using the same kind of mechanism. Instead of having an API key for each user stored in the database, we may provide third-party developers who want to use our API with a OAuth service. This way, they would let users of our service log in through our OAuth server, and generate a token for them to use and query the API.
+
+- [Twitter OAuth](https://developer.twitter.com/en/docs/basics/authentication/overview/oauth.html)
+- [GitHub OAuth](https://developer.github.com/apps/building-oauth-apps/)
+
+Before you jump to the server code, you may want to impersonate a third-party developer of an API using OAuth. You can do so with the GitHub one!
+
+1. Go to [github.com/settings/applications/new](https://github.com/settings/applications/new) and register a new OAuth application
+1. Download this code to a `./github.py` file in your project
+1. Update the `consumer_key` and `consumer_secret` with the actual value you got from step 1.
+1. Launch the server with: `pipenv run python github.py`
+
+Now open the browser and navigate to `localhost:5000`. What is happenning?
+
+1. You are redirected to a GitHub page where you, as a GitHub user, decide to grant (or not) this `github.py` service with an access (with a given **scopre**) to your GitHub information
+1. Once accepted, you are redirected to your local service. The code stores _in session_ (that could be in DB!) the `github_token`.
+1. With that token, the code is able to perform requests to the GitHub API **on the user's behalf**.
+
+## Implementing the OAuth server
+
+Now that you understand how OAuth works on the **client** side, you may start working on _providing_ this to your API third-party developers! Read this (very long) [guide on OAuth2 Server](http://flask-oauthlib.readthedocs.io/en/latest/oauth2.html) from the `flask-oauthlib` documentation and try it.
+
+Good luck 👌
