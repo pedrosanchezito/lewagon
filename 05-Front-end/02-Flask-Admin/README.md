@@ -15,7 +15,7 @@ cd ~/code/<github_username>/flask-with-sqlalchemy
 Make sure your `git status` is clean and don't forget to work in a branch! This way it's easy to [discard the WIP](https://stackoverflow.com/a/14075772/197944).
 
 ```bash
-git co -b experiment-with-flask-admin
+git checkout -b experiment-with-flask-admin
 ```
 
 Jump straight to the [Getting Started](https://flask-admin.readthedocs.io/en/latest/introduction/#getting-started) part of the documentation. The important lines are:
