@@ -9,7 +9,7 @@ cd ~/code/<github_username>/flask-with-sqlalchemy
 Make sure your `git status` is clean (`add` and `commit` the WIP), and that your server can still be started:
 
 ```bash
-pipenv FLASK_ENV=development pipenv run flask run
+FLASK_ENV=development pipenv run flask run
 ```
 
 ## Homepage
