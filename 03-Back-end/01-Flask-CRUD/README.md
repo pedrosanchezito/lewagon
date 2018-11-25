@@ -19,6 +19,14 @@ touch wsgi.py
 stt # Open Sublime Text in the current folder.
 ```
 
+Curious what packages Flask is relying on? Run this in your terminal:
+
+```bash
+pipenv graph
+```
+
+Neat, isn't it?
+
 ### Flask Boilerplate
 
 In your `wsgi.py` file, copy paste the following boilerplate:
@@ -73,7 +81,12 @@ pipenv run gunicorn wsgi:app --access-logfile=-
 Let's try to deploy this application to Heroku:
 
 ```bash
-echo "web: gunicorn wsgi:app --access-logfile=-" > Procfile
+touch Procfile
+```
+
+```bash
+# Procfile
+web: gunicorn wsgi:app --access-logfile=-
 ```
 
 ```bash
@@ -97,19 +110,19 @@ Right now, our app returns some plain text. Today's goal is to build a REST API.
 👉 Add a `/api/v1/products` route which will return a JSON array out of the plain list of dict:
 
 ```python
-the_products = [
+PRODUCTS = [
     { 'id': 1, 'name': 'Skello' },
     { 'id': 2, 'name': 'Socialive.tv' }
 ]
 ```
 
-💡**Tip**: Have a look at [`jsonify`](http://flask.pocoo.org/docs/api/#flask.json.jsonify)
+:bulb: **Tip**: Have a look at [`jsonify`](http://flask.pocoo.org/docs/api/#flask.json.jsonify)
 
 To test your code, open the browser and go to [`localhost:5000/api/v1/products`](http://localhost:5000/api/v1/products).
 
-💡**Tip**: Install the [JSONView Chrome extension](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) to have a better visualisation of JSON HTTP responses.
+:bulb: **Tip**: Install the [JSONView Chrome extension](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) to have a better visualisation of JSON HTTP responses.
 
-Commit and push your code to Heroku. Check te new `/api/v1/products` endpoint works in production.
+Commit and push your code to Heroku. Check the new `/api/v1/products` endpoint works in **production**.
 
 ## Testing
 
@@ -123,7 +136,7 @@ We are using an external module called [`Flask Testing`](https://pythonhosted.or
 pipenv install flask-testing nose --dev
 ```
 
-Now let's create the `tests` directory and a first test file. This test file is about **views**, which is the component the closest to the HTTP response in a MVC framework (more on that later):
+Now let's create the `tests` directory and a first test file. This test file is about **views**, which is the closest component to the HTTP response in a MVC framework (more on that later):
 
 ```bash
 mkdir tests
@@ -146,7 +159,7 @@ class TestViews(TestCase):
         response = self.client.get("/api/v1/products")
         products = response.json
         self.assertIsInstance(products, list)
-        self.assertGreater(len(products), 3) # 3 is not a mistake here.
+        self.assertGreater(len(products), 2) # 2 is not a mistake here.
 ```
 
 Then open the terminal and run:
@@ -159,6 +172,13 @@ pipenv run nosetests -s
 
 (`-s` flag is useful to actually view your `print()` statements, or use `pdb`).
 
+<details><summary>View solution</summary><p>
+
+Just add a third element to the `PRODUCTS` array!
+
+</p>
+</details>
+
 ## CRUD
 
 Congratulations :tada: ! You wrote the first route of the RESTful API. Now it's time to implement the four other endpoints to properly implement CRUD on the `product` resource.
@@ -169,16 +189,54 @@ Practise the [GitHub Flow](../../02-Best-Practices/01-Github-Flow) with four fea
 
 First add a test for the `GET /api/v1/products/:id` route. Then implement it. This route retrieves a single `product` and serve a JSON representation of it (Status code: `200`). If the `:id` does not match any know product id then return a [`404`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) (add a separate test case for this).
 
+:bulb: **Tip**: Have a look at the [Variable Rules](flask.pocoo.org/docs/quickstart/#variable-rules) in the Flask documentation.
+
 ### Delete
 
-Add a test for the `DELETE /api/v1/products/:id` route. This route will **remove** a single `product` from the fake `the_products` database. Return an empty response with status code [`204`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204).
+Add a test for the `DELETE /api/v1/products/:id` route. This route will **remove** a single `product` from the fake `PRODUCTS` database. Return an empty response with status code [`204`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204).
+
+:bulb: **Tip**: Have a look at how Flask defines an [HTTP Method](http://flask.pocoo.org/docs/quickstart/#http-methods) for a given route.
+
+:bulb: **Tip**: If you want to TDD this method you will have a hard time as the Database is simulated in a constant list. Go ahead and only write the code in wsgi.py, we will cover later how to isolate the test environment and use a proper Database setup for that. This remark will be the same for the next two sections "Create" & "Update".
 
 ### Create
 
-Start by adding a test for the `POST /api/v1/products` route. This route will **create** a new product in the fake `the_products` database and return the JSON representation of the newly created resource (Status code: [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201))
+Start by adding a test for the `POST /api/v1/products` route. This route will **create** a new product in the fake `PRODUCTS` database and return the JSON representation of the newly created resource (Status code: [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201))
+
+:bulb: **Tip** You may need to use the [`Request.get_json`](flask.pocoo.org/docs/api/#flask.Request.get_json) method.
+
+```python
+from flask import request
+
+request.get_json()
+```
+
+:bulb: **Tip** You might need to introduce a a way to generate auto-incremented ids:
+
+```python
+class Counter:
+    def __init__(self):
+        self.id = 3
+
+    def next(self):
+        self.id += 1
+        return self.id
+
+ID = Counter()
+print(ID.next())
+```
+
+:bulb: **Tip** Here is a payload you can use in Postman to test this route:
+
+```
+{
+    "name": "Workelo"
+}
+```
+
+![](../../img/postman-workelo.png)
 
 ### Update
 
 Finally, add a test for the `PATCH /api/v1/products/:id` route which will **update** an existing product (based on its id). Return a `204` when completed, or `422` if there is a validation error (needs a separate test case, validation error could be that supplied product name is _empty_)
-
 
