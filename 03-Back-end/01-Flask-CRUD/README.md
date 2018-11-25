@@ -16,7 +16,7 @@ mkdir flask-101 & cd $_
 pipenv --python 3.7
 pipenv install flask gunicorn
 touch wsgi.py
-stt # Open Sublime Text in the current folder.
+subl . # Open Sublime Text in the current folder.
 ```
 
 Curious what packages Flask is relying on? Run this in your terminal:
