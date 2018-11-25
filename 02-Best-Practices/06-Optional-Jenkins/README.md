@@ -1,14 +1,14 @@
 # Jenkins
 
-In the previous [Continuous Integration](../05-Continuous-Integration) exercise, we have covered how to use the cloud provider [Travis CI](https://travis-ci.com/) to quickly put in place a "build farm" for our GitHub repository. The tight integration between GitHub and Travis CI combined with the usage of GitHub's OAuth capabilities gets any developer up & running in minutes. The trickiest part of this setup is always getting the `./.travis.yml` configuration right.
+In the previous [Continuous Integration](../05-Continuous-Integration) exercise, we have covered how to use the cloud provider [Travis CI](https://travis-ci.com/) to quickly put in place a "build farm" for our GitHub repository. The tight integration between GitHub and Travis CI combined with the usage of GitHub's OAuth capabilities gets any developer up & running in minutes. The trickiest part of this setup is always getting the `.travis.yml` configuration right.
 
 In this exercise, we will replace Travis CI with **Jenkins**.
 
 ## Context
 
-Jenkins is an _open-source_ automation server written in java. It is a server-based system that runs in servlet containers such as Apache Tomcat. Released under the MIT License, Jenkins is free software.
+[Jenkins](https://jenkins.io/) is an _open-source_ automation server written in java. It is a server-based system that runs in servlet containers such as Apache Tomcat. Released under the MIT License, Jenkins is free software.
 
-Jenkins was first released in **2011** and is widely used by companies around the world. Corporations who don't want to trust the cloud provider Travis CI turn to Jenkins and host this software on their own servers. For this exercise, Le Wagon is providing an instance of Jenkins hosted on AWS EC2. Back at your company, you will be able to use the Jenkins instances provided by your IT teams if such instances exist.
+Jenkins was first released in **2011** and is widely used by companies around the world. Corporations who don't want to trust the cloud provider Travis CI turn to Jenkins and host this software on their own servers. For this exercise, Le Wagon is providing an instance of Jenkins hosted on AWS EC2. Back at your company, you might be able to use the Jenkins instances provided by your IT teams if such instances exist.
 
 ## Starting from scratch
 
@@ -178,8 +178,30 @@ Click on "New item" to create a new configuration.
 
 ![](../../img/jenkins-create-project.png)
 
+You should arrive on this screen:
 
-TODO: insert
+![](../../img/jenkins-add-1.png)
+
+Once "GitHub" has been selected as a source, it gets trickier. The idea is that we will provide a way for Jenkins to:
+
+1. Download the source from GitHub. For a public repo it mights seems obvious as the code is open-source, so no auth needed right? Well, that's true but would defat the second item:
+1. Set the status of every commit of every branch and Pull Request, allowing the developers to be aware of breakage directly from GitHub
+
+![](../../img/jenkins-add-2.png)
+
+Select the project to store the credentials (and not a global Jenkins configuration). You will be prompted with a pop-in asking you for a username and password. **Don't put your password** in here. Go to [github.com/settings/tokens](https://github.com/settings/tokens) to generate a new one:
+
+![](../../img/jenkins-add-3.png)
+
+![](../../img/jenkins-add-4.png)
+
+Save your credentials configuration, it will close the pop up. It's now time to select the right GitHub repository as a source.
+
+![](../../img/jenkins-add-5.png)
+
+Finally it should scan your repository for branches. In each branch, it will look for a `Jenkinsfile`, which it won't find.
+
+![](../../img/jenkins-add-6.png)
 
 ### Jenkinsfile
 
@@ -384,7 +406,7 @@ Go ahead and merge the branch. Go back to Jenkins, you should see `master` build
 https://github.com/YOUR_GITHUB_NICKNAME/morse/network
 ```
 
-![](../../img/jenkins-after-login.png)
+![](../../img/github-morse-network.png)
 
 ## Conclusion
 
