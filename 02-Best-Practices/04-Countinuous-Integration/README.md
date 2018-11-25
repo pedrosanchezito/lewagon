@@ -122,7 +122,7 @@ git push origin dictionary-api
 
 Now let's open a Pull Request on GitHub for this branch. You might find it a bit early but that's something which is actually encouraged by the [GitHub flow](http://scottchacon.com/2011/08/31/github-flow.html):
 
-> If you are stuck in the progress of your feature or branch and need help or advice, or if you are a developer and need a designer to review your work (or vice versa), or even if you have little or no code but some screenshot comps or general ideas, you open a pull request.
+If you are stuck in the progress of your feature or branch and need help or advice, or if you are a developer and need a designer to review your work (or vice versa), or even if you have little or no code but some screenshot comps or general ideas, you open a pull request.
 
 At Le Wagon, developers open Pull Request early on for their feature branches to show teammates what they are doing and sollicitate feedback early. No need to wait to be code-complete to open the Pull Request! Here is a screenshot of our main application, using the `[WIP]` prefix in the pull request titles to showcase the fact that the branch is not ready yet to be merged:
 
@@ -187,7 +187,7 @@ Go back to your Pull Request page, you should see the icons turning from red cro
 
 ![](../../img/github-travis-passing.png)
 
-Awesome job 🎉! Invite a teammate as a repo collaborator to review the code in the Pull Request and **merge** it.
+Awesome job 🎉! Invite your buddy as a repo collaborator to review the code in the Pull Request and **merge** it.
 
 ## Conclusion
 
@@ -199,6 +199,3 @@ Before pushing DevOps farther with the next exercise about Continuous Deployment
 - Keep Pull Request focused on a _single_ feature. Add at least a test for each pull request
 - Before asking for a review, re-read your code in the `Files changed` tab. Seeing the code from this perspective (in a web browser under a diff format) will help you spot style issues, refactoring opportunities, etc. that you could not see directly in your text editor.
 - Finally, your friends at GitHub wrote a great piece on [how to properly write](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/) in a Pull Request (both for the reviewee and the reviewer).
-
-
-

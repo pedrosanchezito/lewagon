@@ -135,9 +135,9 @@ git add <file1> <file2> ...
 git commit -m "Quickly describe to your teammates what you did here"
 git push origin $FEATURE_BRANCH
 
-# Go to github.com - Open a Pull Request. Ask a teammate to review
+# Go to github.com - Open a Pull Request. Ask your buddy to review it
 
-# Do some more commits on the branch with your teammate feedback
+# Do some more commits on the branch with your buddy feedback
 
 # Teammate is happy with the changes and **merge** it.
 
