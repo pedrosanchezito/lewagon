@@ -189,7 +189,14 @@ Once "GitHub" has been selected as a source, it gets trickier. The idea is that 
 
 ![](../../img/jenkins-add-2.png)
 
-Select the project to store the credentials (and not a global Jenkins configuration). You will be prompted with a pop-in asking you for a username and password. **Don't put your password** in here. Go to [github.com/settings/tokens](https://github.com/settings/tokens) to generate a new one:
+Select the project to store the credentials (and not a global Jenkins configuration). You will be prompted with a pop-in asking you for a username and password. **Don't put your password** in here. Go to [github.com/settings/tokens](https://github.com/settings/tokens) to generate a new one.
+
+You need the following permissions:
+
+- `repo:status`
+- `public_repo`
+- `read:org`
+- `user:email`
 
 ![](../../img/jenkins-add-3.png)
 
@@ -249,9 +256,32 @@ https://github.com/YOUR_GITHUB_NICKNAME/morse/settings/hooks
 
 And click on the top-right button "Add webhook".
 
-TODO: image
+You want to add a Webhook for the following events:
+
+- Pull Requests
+- Pushes
+
+It should look like this:
+
+![](../../img/github-add-webhook.png)
 
 That's it! GitHub will report Jenkins everytime you push or open a Pull Request.
+
+So let's push!
+
+```bash
+git add Jenkinsfile
+git commit -m "Adding Jenkinsfile"
+git push origin master
+```
+
+Go to Jenkins and watch a **#1** build start, finish and be **red**.
+
+![](../../img/jenkins-first-build-red-1.png)
+
+![](../../img/jenkins-first-build-red-2.png)
+
+![](../../img/jenkins-first-build-red-3.png)
 
 ### Turning Jenkins's project green (blue)
 
@@ -319,7 +349,7 @@ git push origin master
 
 Go back to Jenkins, and watch your build run.
 
-TODO: image
+![](../../img/jenkins-second-build-green.png)
 
 Hooray! Travis is now passing.
 
