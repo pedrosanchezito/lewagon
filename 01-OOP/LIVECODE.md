@@ -67,10 +67,8 @@ class Game:
             print("Computer won")
 
 if __name__ == '__main__':
-    main()
     game = Game()
     game.play()
-
 ```
 
 </p></details>
