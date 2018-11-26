@@ -11,4 +11,5 @@ def test_start_with_flask_env_production():
     eq_(start(), "Starting in production mode...")
 
 def test_start_with_no_flask_env():
+    del os.environ['FLASK_ENV']
     eq_(start(), "Starting in production mode...")
