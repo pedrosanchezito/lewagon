@@ -83,7 +83,7 @@ class TestMorse(unittest.TestCase):
         self.assertEqual(Morse().decode("--."), "G")
 
     def test_h(self):
-        self.assertEqual(Morse().decode("..."), "H")
+        self.assertEqual(Morse().decode("...."), "H")
 
     def test_i(self):
         self.assertEqual(Morse().decode(".."), "I")
