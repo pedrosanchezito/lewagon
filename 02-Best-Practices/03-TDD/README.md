@@ -8,7 +8,7 @@ The testing pattern encouraged is a four-phase one and well described in this [b
 
 ## Longest Word
 
-Let's practise TDD with a simple game that we will use until the end of the day. We will implement "The Longest Word", a game where given a list of nine letters, you have to find the longest possible English word formed by those letters (you can use at most once each letter).
+Let's practise TDD with a simple game that we will use until the end of the day. We will implement "The Longest Word", a game where given a list of nine letters, you have to find the longest possible English word formed by those letters.
 
 Example:
 

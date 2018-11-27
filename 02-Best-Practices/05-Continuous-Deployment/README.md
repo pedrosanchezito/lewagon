@@ -142,6 +142,7 @@ If you try to play, you will get an error. It's because we have not implemented 
 
 ```python
 # wsgi.py
+from flask import Flask, render_template, request
 
 # [...]
 
