@@ -36,7 +36,7 @@ from flask import Flask
 def create_app():
     app = Flask(__name__)
 
-    @app.route('/')
+    @app.route('/hello')
     def hello():
         return "Hello World!"
 
@@ -50,6 +50,8 @@ Then open the `./wsgi.py` file and import this new `create_app` to use it right 
 from app import create_app
 
 application = create_app()
+if __name__ == '__main__':
+    application.run(debug=True)
 ```
 
 Go ahead and launch the app:
@@ -58,7 +60,7 @@ Go ahead and launch the app:
 FLASK_ENV=development pipenv run flask run
 ```
 
-The server should start. Open your browser and visit [`localhost:5000`](http://localhost:5000). You should see "Hello world!" as a text answer!
+The server should start. Open your browser and visit [`localhost:5000/hello`](http://localhost:5000/hello). You should see "Hello world!" as a text answer!
 
 ### Blueprint
 
@@ -79,7 +81,7 @@ from flask import Blueprint
 
 main = Blueprint('main', __name__)
 
-@main.route('/')
+@main.route('/hello')
 def home():
     return "Hello from a Blueprint!"
 ```
@@ -105,7 +107,7 @@ If you stopped your server, restart it with:
 ```bash
 FLASK_ENV=development pipenv run flask run
 ```
-Open your browser and visit [`localhost:5000`](http://localhost:5000). You should see "Hello from a Blueprint!" as a text answer!
+Open your browser and visit [`localhost:5000/hello`](http://localhost:5000/hello). You should see "Hello from a Blueprint!" as a text answer!
 
 💡 It's important to understand the `from .main.controllers import main` line which happens before the blueprint registering. The `from .main.controllers` means that we look into the `main/controllers.py` file from the **same** package as the local `__init__.py`. It's a shortcut for `from app.main.controllers`. Then the `import main` means that we import the variable or method `main` defined in this `controllers.py` file (here it's a variable: an instance of `Blueprint`).
 
@@ -138,7 +140,7 @@ class TestHomeView(TestCase):
         return app
 
     def test_home(self):
-        response = self.client.get("/")
+        response = self.client.get("/hello")
         text = response.data.decode()
         print(text)
         self.assertIn("Goodbye", text)
@@ -181,7 +183,7 @@ git push heroku master
 heroku open # Check the app is actually running.
 ```
 
-## First API endpoint - `/api/v1/tweets/:id`
+## First API endpoint - `/tweets/:id`
 
 In the following section, we will implement the HTTP API serving a JSON of a single tweet.
 
@@ -401,8 +403,6 @@ class TestTweetRepository(TestCase):
         repository.add(tweet)
         self.assertEqual(tweet, repository.get(1))
         self.assertIsNone(repository.get(2))
-
-    def test
 ```
 
 </p></details>
@@ -448,25 +448,40 @@ It's now time to add a new route and a new controller to our app to serve our AP
 Remember, we want to have this:
 
 ```bash
-GET /api/v1/tweets/1
+GET /tweets/1
 
 => a JSON of the given tweet
 ```
 
-To stay organized, we will introduce a new `Blueprint` to our application. We already have `main`,
-we will now have `api` as well:
+Instead of coding everyting manually like we did in the previous exercise, we will use the [`flask-restplus`](https://flask-restplus.readthedocs.io/) package.
 
 ```bash
-mkdir app/api
-mkdir tests/api
-touch tests/api/__init__.py
-touch tests/api/test_tweet_views.py
+pipenv install flask-restplus
+```
+
+Take some time to read the following article:
+
+:point_right: [Quick Start](https://flask-restplus.readthedocs.io/en/stable/quickstart.html)
+
+We want to start on the right foot in term of scalability, again take some time to read this:
+
+:point_right: [Scaling your project](https://flask-restplus.readthedocs.io/en/stable/scaling.html)
+
+Let's put this into practise:
+
+```bash
+mkdir app/apis
+touch app/apis/__init__.py
+
+mkdir tests/apis
+touch tests/apis/__init__.py
+touch tests/apis/test_tweet_views.py
 ```
 
 Let's write the test for our new route:
 
 ```python
-# tests/api/test_tweet_views.py
+# tests/apis/test_tweet_views.py
 
 from flask_testing import TestCase
 from app import create_app
@@ -485,7 +500,7 @@ class TestTweetViews(TestCase):
     def test_tweet_show(self):
         first_tweet = Tweet("First tweet")
         tweet_repository.add(first_tweet)
-        response = self.client.get("/api/v1/tweets/1")
+        response = self.client.get("/tweets/1")
         response_tweet = response.json
         print(response_tweet)
         self.assertEqual(response_tweet["id"], 1)
@@ -508,65 +523,98 @@ from .repositories import TweetRepository
 tweet_repository = TweetRepository()
 ```
 
-Now, let's make the test pass! We need to create the new `Blueprint`:
+Now, let's make the test pass! We need to create a new API namespace:
 
 ```bash
-touch app/api/tweets.py
+touch app/apis/tweets.py
 ```
 
 ```python
-# app/api/tweets.py
-from flask import Blueprint, jsonify
-# TODO: import tweet_repository
+# app/apis/tweets.py
+from flask_restplus import Namespace, Resource, fields
+from app.db import tweet_repository
 
-api = Blueprint('tweets', __name__)
+api = Namespace('tweets')
 
-# TODO: implement the `/tweets/1` parametric route
+@api.route('/<int:id>')
+@api.response(404, 'Tweet not found')
+class Tweet(Resource):
+    def get(self, id):
+        tweet = tweet_repository.get(id)
+        if tweet is None:
+            api.abort(404)
+        else:
+            return tweet
 ```
 
 Connect this right away to the main Flask app:
 
 ```python
 # app/__init__.py
-# [...]
+from flask import Flask
+from flask_restplus import Api
+
 def create_app():
-    # [...]
-    from .api.tweets import api as tweet_api
-    app.register_blueprint(tweet_api, url_prefix = "/api/v1")
-    # [...]
+    app = Flask(__name__)
+
+    @app.route('/hello')
+    def hello():
+        return "Goodbye World!"
+
+    from .apis.tweets import api as tweets
+    api = Api()
+    api.add_namespace(tweets)
+    api.init_app(app)
+
+    app.config['ERROR_404_HELP'] = False
+    return app
 ```
 
-:question: Implement the `Blueprint` to make the test pass. Use a [variable rule](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) for the dynamic id.
+:question: Implement the rest of `app/apis/tweets.py` to make the test pass.
+
+:bulb: **Hint**: you need to use the `api.model()` and `@api.marshal_with` described [in the doc](https://flask-restplus.readthedocs.io/en/stable/quickstart.html#data-formatting) to overcome the following error:
 
 ```bash
-pipenv run nosetests tests/api/test_tweet_views.py -s
+TypeError: Object of type Tweet is not JSON serializable
 ```
+
+Do you understand this error? If not, ask your buddy then ask a TA!
+
+```bash
+pipenv run nosetests tests/apis/test_tweet_views.py
+```
+
+:bulb: **Hint**: have a look at the [full example](https://flask-restplus.readthedocs.io/en/stable/example.html) from the documentation!
 
 <details><summary>View solution (Really try first 🙏)</summary><p>
 
-A naive implementation would be to use [`jsonify`](http://flask.pocoo.org/docs/1.0/api/#flask.json.jsonify)
-on a `dict` built from the `Tweet` instance variables.
+We will use the FlaskRESTPlus built-in serialization:
 
 ```python
-# app/api/tweets.py
-from flask import Blueprint, jsonify
+# app/apis/tweets.py
+from flask_restplus import Namespace, Resource, fields
 from app.db import tweet_repository
 
-api = Blueprint('tweets', __name__)
+api = Namespace('tweets')
 
-@api.route('/tweets/<int:id>')
-def show(id):
-    tweet = tweet_repository.get(id)
-    return jsonify({
-        "id": tweet.id,
-        "text": tweet.text,
-        "created_at": tweet.created_at
-    })
+tweet = api.model('Tweet', {
+    'id': fields.Integer,
+    'text': fields.String,
+    'created_at': fields.DateTime
+})
+
+@api.route('/<int:id>')
+@api.response(404, 'Tweet not found')
+@api.param('id', 'The tweet unique identifier')
+class Tweet(Resource):
+    @api.marshal_with(tweet)
+    def get(self, id):
+        tweet = tweet_repository.get(id)
+        if tweet is None:
+            api.abort(404)
+        else:
+            return tweet
 ```
-
-What we just did is called **serialization**. We took a rich object in memory (a `Tweet` instance
-retrieved from the `tweet_repository`) and we converted it into a JSON string to be passed in the
-HTTP response by Flask.
 
 </p></details>
 
@@ -580,7 +628,7 @@ Let's leave the tests for now (running `pipenv run nosetests` should yield 7 pas
 FLASK_ENV=development pipenv run flask run
 ```
 
-Now open your browser and go to [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1).
+Now open your browser and go to [`localhost:5000/tweets/1`](http://localhost:5000/tweets/1).
 
 :question: Read the error message and find which line of your code triggers it. Why?
 
@@ -589,7 +637,7 @@ Now open your browser and go to [`localhost:5000/api/v1/tweets/1`](http://localh
 On line 8 of `app/api/tweets.py`, we retrieve a tweet with id == 1 **but** there is no tweet in the repository
 yet! Then `tweet` is `None`, thus the error:
 
-```
+```bash
 AttributeError: 'NoneType' object has no attribute 'id'
 ```
 
@@ -610,15 +658,17 @@ def create_app():
     # [...]
 ```
 
-Try again [`localhost:5000/api/v1/tweets/1`](http://localhost:5000/api/v1/tweets/1). Do you get a nice JSON of your tweet? Hoorah!
+Try again [`localhost:5000/tweets/1`](http://localhost:5000/tweets/1). Do you get a nice JSON of your tweet? Hoorah!
 
 </details>
+
+:bulb: Don't forget to commit and deploy!
 
 ## Going further
 
 If you reached this part, you get the gist of building a RESTful API with Flask. It's time to practise!
 
-- Implement the remaining endpoints to have a full `CRUD` RESTful API! Today we don't care about User Authorization for create, update & delete
+- Implement the remaining endpoints to have a full `CRUD` RESTful API! Today we don't care about User Authorization for create, update & delete. [The doc is your friend](https://flask-restplus.readthedocs.io/en/stable/)
 - Use the GitHub flow for each new endpoint!
 - Deploy often! Everytime you merge a branch with a new endpoint, `git push heroku master`!
 
