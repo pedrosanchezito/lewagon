@@ -47,8 +47,7 @@ subl .travis.yml
 
 language: python
 python: 3.7
-dist: xenial # https://github.com/travis-ci/travis-ci/issues/9815#issuecomment-401756442
-sudo: true
+dist: xenial
 install:
   - pip install pipenv
   - pipenv install --dev
