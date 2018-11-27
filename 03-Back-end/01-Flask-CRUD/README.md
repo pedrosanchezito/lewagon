@@ -203,7 +203,7 @@ Add a test for the `DELETE /api/v1/products/:id` route. This route will **remove
 
 Start by adding a test for the `POST /api/v1/products` route. This route will **create** a new product in the fake `PRODUCTS` database and return the JSON representation of the newly created resource (Status code: [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201))
 
-:bulb: **Tip** You may need to use the [`Request.get_json`](flask.pocoo.org/docs/api/#flask.Request.get_json) method.
+:bulb: **Tip** You may need to use the [`Request.get_json`](http://flask.pocoo.org/docs/1.0/api/#flask.Request.get_json) method.
 
 ```python
 from flask import request
