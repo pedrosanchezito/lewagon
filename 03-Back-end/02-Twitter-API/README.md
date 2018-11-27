@@ -10,7 +10,8 @@ Let's start a new Flask project:
 
 ```bash
 cd ~/code/<your_username>
-mkdir twitter-api & cd $_
+mkdir twitter-api & cd twitter-api
+pipenv --python 3.7
 pipenv install flask
 touch wsgi.py
 ```
@@ -400,13 +401,15 @@ class TestTweetRepository(TestCase):
         repository.add(tweet)
         self.assertEqual(tweet, repository.get(1))
         self.assertIsNone(repository.get(2))
+
+    def test
 ```
 
 </p></details>
 
 <br />
 
-:question: Once the test is written, try to implement the `Tweetrepository` class using the
+:question: Once the test is written, try to implement the `TweetRepository` class using the
 same TDD technique we used to implement the `Tweet` class.
 
 <details><summary>View solution</summary><p>
@@ -415,8 +418,7 @@ same TDD technique we used to implement the `Tweet` class.
 # app/repositories.py
 class TweetRepository:
     def __init__(self):
-        self.tweets = []
-        self.next_id = 1
+        self.__clear()
 
     def add(self, tweet):
         self.tweets.append(tweet)
@@ -428,6 +430,10 @@ class TweetRepository:
           if tweet.id == id:
               return tweet
       return None
+
+    def __clear(self):
+      self.tweets = []
+      self.next_id = 1
 ```
 
 💡 See how the test file is way longer than the actual implementation?
@@ -474,7 +480,7 @@ class TestTweetViews(TestCase):
         return app
 
     def setUp(self):
-        tweet_repository.tweets.clear() # Make sure each test starts with an empty database
+        tweet_repository.clear() # Upgrade the TweetRepository.__clear() method to public!
 
     def test_tweet_show(self):
         first_tweet = Tweet("First tweet")
