@@ -62,7 +62,7 @@ class MachineTest(unittest.TestCase):
         machine.refill("A", 3)
         self.assertEqual(machine.racks["A"].quantity, 3)
 
-    def test_user_can_by_item_a(self):
+    def test_user_can_buy_item_a(self):
         racks = [ Rack("A", "", 100) ]
         machine = Machine(racks, 0)
         machine.refill("A", 1)
