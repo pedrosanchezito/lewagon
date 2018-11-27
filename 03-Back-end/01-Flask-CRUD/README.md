@@ -189,7 +189,7 @@ Practise the [GitHub Flow](../../02-Best-Practices/01-Github-Flow) with four fea
 
 First add a test for the `GET /api/v1/products/:id` route. Then implement it. This route retrieves a single `product` and serve a JSON representation of it (Status code: `200`). If the `:id` does not match any know product id then return a [`404`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) (add a separate test case for this).
 
-:bulb: **Tip**: Have a look at the [Variable Rules](flask.pocoo.org/docs/quickstart/#variable-rules) in the Flask documentation.
+:bulb: **Tip**: Have a look at the [Variable Rules](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) in the Flask documentation.
 
 ### Delete
 
@@ -203,7 +203,7 @@ Add a test for the `DELETE /api/v1/products/:id` route. This route will **remove
 
 Start by adding a test for the `POST /api/v1/products` route. This route will **create** a new product in the fake `PRODUCTS` database and return the JSON representation of the newly created resource (Status code: [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201))
 
-:bulb: **Tip** You may need to use the [`Request.get_json`](flask.pocoo.org/docs/api/#flask.Request.get_json) method.
+:bulb: **Tip** You may need to use the [`Request.get_json`](http://flask.pocoo.org/docs/1.0/api/#flask.Request.get_json) method.
 
 ```python
 from flask import request
