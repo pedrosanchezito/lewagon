@@ -189,7 +189,7 @@ Practise the [GitHub Flow](../../02-Best-Practices/01-Github-Flow) with four fea
 
 First add a test for the `GET /api/v1/products/:id` route. Then implement it. This route retrieves a single `product` and serve a JSON representation of it (Status code: `200`). If the `:id` does not match any know product id then return a [`404`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) (add a separate test case for this).
 
-:bulb: **Tip**: Have a look at the [Variable Rules](flask.pocoo.org/docs/quickstart/#variable-rules) in the Flask documentation.
+:bulb: **Tip**: Have a look at the [Variable Rules](http://flask.pocoo.org/docs/1.0/quickstart/#variable-rules) in the Flask documentation.
 
 ### Delete
 
