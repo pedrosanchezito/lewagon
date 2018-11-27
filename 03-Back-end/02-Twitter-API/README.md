@@ -664,6 +664,14 @@ Try again [`localhost:5000/tweets/1`](http://localhost:5000/tweets/1). Do you ge
 
 :bulb: Don't forget to commit and deploy!
 
+## Bonus: Swagger documentation
+
+The Flask-RESTPlus package comes with [swagger doc](https://flask-restplus.readthedocs.io/en/stable/swagger.html) embeded. Run your server and access the root URL:
+
+:point_right: [http://localhost:5000](http://localhost:5000)
+
+Can you see the documentation? You can try your endpoints right within it!
+
 ## Going further
 
 If you reached this part, you get the gist of building a RESTful API with Flask. It's time to practise!
