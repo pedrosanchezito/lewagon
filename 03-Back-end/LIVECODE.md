@@ -115,7 +115,8 @@ class NewsTest(unittest.TestCase):
 ```
 
 ```python
-# client/__init__.pyimport requests
+# client/__init__.py
+import requests
 
 class News:
     API_KEY = "367f28d82c3b42e2bb224b79b0ef480e"
