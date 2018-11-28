@@ -538,7 +538,7 @@ api = Namespace('tweets')
 
 @api.route('/<int:id>')
 @api.response(404, 'Tweet not found')
-class Tweet(Resource):
+class TweetResource(Resource):
     def get(self, id):
         tweet = tweet_repository.get(id)
         if tweet is None:
@@ -606,7 +606,7 @@ tweet = api.model('Tweet', {
 @api.route('/<int:id>')
 @api.response(404, 'Tweet not found')
 @api.param('id', 'The tweet unique identifier')
-class Tweet(Resource):
+class TweetResource(Resource):
     @api.marshal_with(tweet)
     def get(self, id):
         tweet = tweet_repository.get(id)
