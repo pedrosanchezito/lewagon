@@ -19,19 +19,16 @@ The setup wizard will ask you for a superadmin password. Put something you can r
 
 You should leave the port as the default suggested value (`5432`), and choose `English, United States` as the default locale.
 
-## Python 3.6
-
-The `psycopg2` does not support yet Python 3.7, so we'll install 3.6. [Download the 3.6.6 installer](https://www.python.org/ftp/python/3.6.6/python-3.6.6-webinstall.exe) and run it. When you are done, close all your Git Bash windows.
-
 ## Getting started
 
 Let's start a new repository from scratch:
 
 ```bash
 cd ~/code/<your_username>
-mkdir flask-with-sqlalchemy & cd $_
+mkdir flask-with-sqlalchemy
+cd flask-with-sqlalchemy
 git init
-pipenv --python 3.6
+pipenv --python 3.7
 pipenv install flask psycopg2 gunicorn flask-sqlalchemy flask-migrate flask-script
 ```
 
@@ -49,7 +46,7 @@ In your `wsgi.py` file, copy paste the following boilerplate:
 from flask import Flask
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/hello')
 def hello():
     return "Hello World!"
 ```
@@ -59,6 +56,8 @@ Check that your application is starting with:
 ```bash
 FLASK_ENV=development pipenv run flask run
 ```
+
+And go to [`localhost:5000/hello`](http://localhost:5000)
 
 We will need to manipulate many environment variables. Let's use [`python-dotenv`](https://github.com/theskumar):
 
@@ -286,7 +285,7 @@ Go back to pgAdmin 4 in Chrome and re-click on the thunder ⚡ button. Hooray! Y
 
 ## Creating our first API endpoint
 
-We are going to code the `/api/v1/products` endpoint, listing _all_ products (we don't paginate here).
+We are going to code the `/products` endpoint, listing _all_ products (we don't paginate here).
 
 Yesterday, we used a fake database and did not had any trouble with `jsonify`. Now that we retrieve data from the database and we use `db.Model` subclasses, we will have **serialization** problems. To anticipate those we must introduce yet another package: [`marshmallow`](https://marshmallow.readthedocs.io/)
 
@@ -338,13 +337,13 @@ from schemas import products_schema
 
 # [...]
 
-@app.route('/api/v1/products')
+@app.route('/products')
 def products():
     products = db.session.query(Product).all() # SQLAlchemy request => 'SELECT * FROM products'
     return products_schema.jsonify(products)
 ```
 
-And that should be it! Launch your server and head to `localhost:5000/api/v1/products`. You should see the two products in the database as JSON!
+And that should be it! Launch your server and head to `localhost:5000/products`. You should see the two products in the database as JSON!
 
 ## Heroku deployment
 
@@ -384,7 +383,7 @@ Open your app!
 heroku open
 ```
 
-:question: You should get the `Hello world` from the Home page. Head to `/api/v1/products`. How many products do you see? Why is it different from `localhost`?
+:question: You should get the `Hello world` from the Home page. Head to `/products`. How many products do you see? Why is it different from `localhost`?
 
 <details><summary>View solution</summary><p>
 
