@@ -4,7 +4,7 @@ We built a REST API all day. Let's do the opposite: **consume** one.
 
 We will use the [News API](https://newsapi.org/) with the following API Key: `367f28d82c3b42e2bb224b79b0ef480e`. This API has 2 endpoints we want to use:
 
-- `https://newsapi.org/v2/country`
+- `https://newsapi.org/v2/top-headlines`
 - `https://newsapi.org/v2/everything`
 
 From the [HTTP section of `awesome-python`](https://github.com/vinta/awesome-python#http) we find the `requests` package to easily send HTTP requests. The [Quickstart](http://docs.python-requests.org/en/master/user/quickstart/) is very useful.
