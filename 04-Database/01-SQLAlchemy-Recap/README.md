@@ -59,10 +59,9 @@ FLASK_ENV=development pipenv run flask run
 
 And go to [`localhost:5000/hello`](http://localhost:5000)
 
-We will need to manipulate many environment variables. Let's use [`python-dotenv`](https://github.com/theskumar):
+We will need to manipulate environment variables to configure access to the database.
 
 ```bash
-pipenv install python-dotenv --dev
 touch .env
 echo ".env" >> .gitignore # You don't want to commit your env variables!
 ```
@@ -77,13 +76,6 @@ DUMMY="dummy"
 Open the `wsgi.py` file and insert at the beginning of the file the following code:
 
 ```bash
-# wsgi.py
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except:
-    pass # Heroku does not use .env
-
 import os
 import logging
 logging.warn(os.environ["DUMMY"])
@@ -91,7 +83,7 @@ logging.warn(os.environ["DUMMY"])
 # [...]
 ```
 
-Relaunch the `flask run` server. You should see this:
+Relaunch the `FLASK_ENV=development pipenv run flask run` server. You should see this:
 
 ```bash
 Loading .env environment variables...
@@ -100,8 +92,6 @@ WARNING:root:dummy
 ```
 
 See? It automatically populates the `os.environ` with the content of the `.env` file!
-
-Once you are convinced that `.env` variables are loaded in Python, remove the three test lines from `wsgi.py` (keep `load_dotenv()`!)
 
 ## `Config` class
 
