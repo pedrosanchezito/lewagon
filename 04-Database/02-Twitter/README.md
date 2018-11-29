@@ -269,7 +269,7 @@ Here is how we are going to achieve this goal. First we need to create a new dat
 
 ```bash
 export PATH="$PATH:/c/Program Files/PostgreSQL/10/bin"
-winpty psql -U postgres -c "CREATE DATABASE twitter_api_flask_development"
+winpty psql -U postgres -c "CREATE DATABASE twitter_api_flask_test"
 ```
 
 And then we can update our `TestTweetViews` class with:

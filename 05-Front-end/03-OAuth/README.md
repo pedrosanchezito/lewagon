@@ -33,7 +33,7 @@ As we are building an API ourselves, we may want to protect it using the same ki
 Before you jump to the server code, you may want to impersonate a third-party developer of an API using OAuth. You can do so with the GitHub one!
 
 1. Go to [github.com/settings/applications/new](https://github.com/settings/applications/new) and register a new OAuth application
-1. Download this code to a `./github.py` file in your project
+1. Download [this code](https://github.com/lepture/flask-oauthlib/blob/master/example/github.py) to a `./github.py` file in your project
 1. Update the `consumer_key` and `consumer_secret` with the actual value you got from step 1.
 1. Launch the server with: `pipenv run python github.py`
 
