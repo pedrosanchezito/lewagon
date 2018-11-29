@@ -34,7 +34,7 @@ pipenv install flask psycopg2 gunicorn flask-sqlalchemy flask-migrate flask-scri
 
 ```bash
 touch wsgi.py
-subl # Open Sublime Text in the current folder.
+subl . # Open Sublime Text in the current folder.
 ```
 
 ### Flask Boilerplate
@@ -209,7 +209,7 @@ pipenv run python manage.py db migrate -m "create products"
 
 Open the file in `./migrations/versions` and read the `upgrade()` auto-generated method. Did you see how it creates the two column `id` and `name`?
 
-Too apply this migration to the actual database, run this:
+To apply this migration to the actual database, run this:
 
 ```bash
 pipenv run python manage.py db upgrade
