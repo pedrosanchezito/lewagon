@@ -121,7 +121,7 @@ from datetime import datetime
 from app import db
 
 class Tweet(db.Model):
-    __table__name = "tweets"
+    __tablename__ = "tweets"
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(280))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -444,5 +444,6 @@ Go ahead, you can TDD it!
 
 Once you have basic CRUD for tweets, let's introduce a second model: `User`. There is a `1:n` association between `User` and `Tweet`, make sure it's correctly declared in the `models.py` file (cf [documentation](http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-many)). A `User` should have the following properties:
 
-1. Username
-1. API Token
+1. `username`
+1. `email`
+1. `api_key`

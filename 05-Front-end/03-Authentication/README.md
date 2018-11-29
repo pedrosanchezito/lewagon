@@ -3,8 +3,31 @@
 Let's go back to our Twitter API:
 
 ```bash
-cd ~/code/<github_username>/twitter-api
-pipenv install flask-oauthlib
+mkdir -p ~/code/ssaunier
+cd ~/code/ssaunier
+git clone git@github.com:ssaunier/twitter-api.git
+cd twitter-api
+git checkout sqlalchemy
+
+pipenv install --dev
+```
+
+Let's reset the DB:
+
+```bash
+touch .env
+```
+
+```bash
+# .env
+DATABASE_URL="postgresql://postgres:<password_if_necessary>@localhost/flask_db"
+```
+
+```bash
+winpty psql -U postgres -c "DROP DATABASE twitter_api_flask"
+winpty psql -U postgres -c "CREATE DATABASE twitter_api_flask"
+
+pipenv run python manage.py db upgrade
 ```
 
 All the API endpoints are available for anyone to call. Nothing is protected. Still, we need to apply some basic security rules like:
@@ -31,6 +54,10 @@ We want to protect the following three APIs routes behind a user auth (as a twee
 
 
 ## OAuth with a sample code
+
+```bash
+pipenv install flask-oauthlib
+```
 
 Consider the official Twitter API, or the GitHub API. THey both provide authentication through OAuth meaning they allow third-party developers to let their users connect to Twitter/GitHub and grand access to a given `scope` of their API.
 
