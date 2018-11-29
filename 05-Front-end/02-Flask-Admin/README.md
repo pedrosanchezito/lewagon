@@ -28,3 +28,5 @@ from flask_admin import Admin
 admin = Admin(app, name='Back-office', template_mode='bootstrap3')
 admin.add_view(ModelView(Product, db.session)) # `Product` needs to be imported before
 ```
+
+Your new endpoint will be available at `/admin` ! Of course that's something you may need to [protect](https://flask-admin.readthedocs.io/en/latest/introduction/#authorization-permissions) in a real-life situation.

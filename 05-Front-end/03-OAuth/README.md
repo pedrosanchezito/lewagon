@@ -42,9 +42,3 @@ Now open the browser and navigate to `localhost:5000`. What is happenning?
 1. You are redirected to a GitHub page where you, as a GitHub user, decide to grant (or not) this `github.py` service with an access (with a given **scopre**) to your GitHub information
 1. Once accepted, you are redirected to your local service. The code stores _in session_ (that could be in DB!) the `github_token`.
 1. With that token, the code is able to perform requests to the GitHub API **on the user's behalf**.
-
-## Implementing the OAuth server
-
-Now that you understand how OAuth works on the **client** side, you may start working on _providing_ this to your API third-party developers! Read this (very long) [guide on OAuth2 Server](http://flask-oauthlib.readthedocs.io/en/latest/oauth2.html) from the `flask-oauthlib` documentation and try it.
-
-Good luck 👌
