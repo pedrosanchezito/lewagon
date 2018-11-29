@@ -134,7 +134,7 @@ In development, we will use this:
 
 ```bash
 # .env
-DATABASE_URL="postgresql://postgres@localhost/flask_db"
+DATABASE_URL="postgresql://postgres:<password_if_necessary>@localhost/flask_db"
 ```
 
 It means that we are using the PostgreSQL server we installed earlier and the `flask_db` database. Database that we actually need to created!

@@ -56,7 +56,7 @@ And add the `DATABASE_URL` variable:
 
 ```bash
 # .env
-DATABASE_URL="postgresql://postgres@localhost/twitter_api_flask"
+DATABASE_URL="postgresql://postgres:<password_if_necessary>@localhost/twitter_api_flask"
 
 # On OSX:
 # DATABASE_URL="postgresql://localhost/twitter_api_flask"
