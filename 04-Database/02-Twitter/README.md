@@ -430,6 +430,18 @@ Commit & push this change. Then go to [github.com/marketplace/travis-ci](https:/
 
 ## Going further
 
+### Tweet list
+
+Let's add another endpoint to our API to retrieve **all tweets**:
+
+```bash
+GET /tweets
+```
+
+Go ahead, you can TDD it!
+
+### Users
+
 Once you have basic CRUD for tweets, let's introduce a second model: `User`. There is a `1:n` association between `User` and `Tweet`, make sure it's correctly declared in the `models.py` file (cf [documentation](http://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-many)). A `User` should have the following properties:
 
 1. Username
