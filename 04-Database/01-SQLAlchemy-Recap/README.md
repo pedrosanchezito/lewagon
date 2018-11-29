@@ -29,7 +29,7 @@ mkdir flask-with-sqlalchemy
 cd flask-with-sqlalchemy
 git init
 pipenv --python 3.7
-pipenv install flask psycopg2 gunicorn flask-sqlalchemy flask-migrate flask-script
+pipenv install flask psycopg2-binary gunicorn flask-sqlalchemy flask-migrate flask-script
 ```
 
 ```bash
