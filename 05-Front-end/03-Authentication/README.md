@@ -20,7 +20,7 @@ touch .env
 
 ```bash
 # .env
-DATABASE_URL="postgresql://postgres:<password_if_necessary>@localhost/flask_db"
+DATABASE_URL="postgresql://postgres:<password_if_necessary>@localhost/twitter_api_flask"
 ```
 
 ```bash
