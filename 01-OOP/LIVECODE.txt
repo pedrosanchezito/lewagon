@@ -1,0 +1,47 @@
+LIVECODE
+
+import  random
+
+# afficher les choix disponibles
+# Variabes
+choices = ['rock', 'paper', 'scissors']
+WINNING_ROUNDS = [
+    'rock:scissors',
+    'paper:rock',
+    'scissors:paper'
+]
+WINNING_SCORE = 3
+
+user_score = 0
+ia_score = 0
+
+while user_score < WINNING_SCORE and ia_score < WINNING_SCORE:
+    user_choice = input(f'Please choose one : {choices}').lower()
+    if user_choice not in choices:
+        print(f"Wrong choice, please only type: {choices}")
+        continue
+    # faire choisir l IA
+    ia_choice = random.choice(choices)
+    print("IA choses : "+ia_choice)
+    # comparer a l aide d une table de combinaisons possible
+    if ia_choice == user_choice:
+        print(f'Draw')
+    elif f"{user_choice}:{ia_choice}" in WINNING_ROUNDS:
+        user_score += 1
+        print(f'You Win !!! User={user_score} IA={ia_score}')
+    else:
+        ia_score += 1
+        print(f'Loser !!! User={user_score} IA={ia_score}')
+
+if user_score > ia_score:
+    print('Great You win !!!')
+else:
+    print('Game over, please try again :-)')
+
+
+
+
+# si joeur gagne incrementer
+# si joueur perd incrementer IA
+# tester les compteurs par rapport a un mx defini dans les regles
+# afficher le resultat du jeu
