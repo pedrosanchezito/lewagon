@@ -256,6 +256,11 @@ https://github.com/YOUR_GITHUB_NICKNAME/morse/settings/hooks
 
 And click on the top-right button "Add webhook".
 
+Enter the following URL in the `Payload URL` field:
+```
+http://jenkins.lewagon.com/jenkins/github-webhook/
+```
+
 You want to add a Webhook for the following events:
 
 - Pull Requests
