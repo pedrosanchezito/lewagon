@@ -57,7 +57,7 @@ Check that your application is starting with:
 FLASK_ENV=development pipenv run flask run
 ```
 
-And go to [`localhost:5000/hello`](http://localhost:5000)
+And go to [`localhost:5000/hello`](http://localhost:5000/hello)
 
 We will need to manipulate environment variables to configure access to the database.
 
