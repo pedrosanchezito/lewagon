@@ -1,18 +1,20 @@
 # Authentication
 
-Let's go back to our Twitter API:
+Let's go back to our Twitter API. You can start from the following code (using the `sqlalchemy` branch):
 
 ```bash
-mkdir -p ~/code/ssaunier
-cd ~/code/ssaunier
-git clone git@github.com:ssaunier/twitter-api.git
-cd twitter-api
-git checkout sqlalchemy
+mkdir -p ~/code/<github_username>
+cd ~/code/<github_username>
+git clone git@github.com:ssaunier/twitter-api.git twitter-api-authentication
+cd twitter-api-authentication
+git remote rm origin
+# You might want to create another repo + set up the `origin` remote to push your code
 
+git checkout sqlalchemy
 pipenv install --dev
 ```
 
-Let's reset the DB:
+Let's set the DB:
 
 ```bash
 touch .env

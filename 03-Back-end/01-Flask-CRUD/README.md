@@ -12,7 +12,7 @@ You will work in a dedicated repository to apply the best practices covered in t
 
 ```bash
 cd ~/code/<your_username>
-mkdir flask-101 & cd $_
+mkdir flask-101 && cd $_
 pipenv --python 3.7
 pipenv install flask gunicorn
 touch wsgi.py
